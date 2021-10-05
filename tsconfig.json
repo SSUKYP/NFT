@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  }
+}
