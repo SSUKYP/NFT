@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=\"production\" webpack",
-    "start": "cross-env NODE_ENV=\"development\" webpack serve --open",
-    "truffle": "truffle"
+    "start": "cross-env NODE_ENV=\"development\" webpack serve --open"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -16,8 +15,10 @@
     "@babel/preset-typescript": "^7.15.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@types/html-webpack-plugin": "^3.2.6",
+    "@types/mini-css-extract-plugin": "^2.3.0",
     "@types/node": "^16.10.2",
     "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.3.1",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -25,6 +26,7 @@
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0",
     "cross-env": "^7.0.3",
+    "css-loader": "^6.4.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
@@ -32,10 +34,13 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.3.3",
     "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.4.2",
     "prettier": "^2.4.1",
     "react-refresh": "^0.10.0",
+    "style-loader": "^3.3.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3",
     "webpack": "^5.57.1",
@@ -43,11 +48,15 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "@klaytn/contracts": "^0.9.0",
-    "dotenv": "^10.0.0",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@fontsource/roboto": "^4.5.1",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/material": "^5.0.3",
+    "core-js": "^3.18.3",
+    "material-design-icons": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "truffle": "^5.4.13",
-    "truffle-hdwallet-provider-klaytn": "^1.4.1"
+    "react-router-dom": "^5.3.0"
   }
 }
