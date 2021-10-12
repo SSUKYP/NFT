@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=\"production\" webpack",
-    "start": "cross-env NODE_ENV=\"development\" webpack serve --open",
-    "truffle": "truffle"
+    "start": "cross-env NODE_ENV=\"development\" webpack serve --open"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -43,11 +42,7 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "@klaytn/contracts": "^0.9.0",
-    "dotenv": "^10.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "truffle": "^5.4.13",
-    "truffle-hdwallet-provider-klaytn": "^1.4.1"
+    "react-dom": "^17.0.2"
   }
 }
