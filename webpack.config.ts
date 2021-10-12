@@ -9,6 +9,7 @@ import {
   DefinePlugin,
 } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -33,12 +34,17 @@ const config: Configuration = {
         },
       },
       {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
         test: /\.(png|ico|ttf|woff2?|eot|otf|svg)$/,
         loader: 'file-loader',
       },
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: false,
@@ -48,7 +54,7 @@ const config: Configuration = {
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      title: 'SSU NFT',
+      title: 'KLAYsea',
     }),
     isDevelopment && new HotModuleReplacementPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),
@@ -66,7 +72,6 @@ const config: Configuration = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
-    hot: true,
     client: {
       overlay: true,
     },
