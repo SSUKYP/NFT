@@ -19,6 +19,8 @@ import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 const artists = [
   {
@@ -89,7 +91,7 @@ const artists = [
 
 const theme = createTheme({});
 
-function MarketPlace() {
+function MarketPage() {
   const [filterButtonShow, setFilterButtonShow] = React.useState<string>('none');
   const [buttonNames, setButtonNames] = React.useState<Array<string>>([]);
 
@@ -115,13 +117,14 @@ function MarketPlace() {
             width: '20vw',
             height: '100vh',
             display: 'flex',
-            flexShrink: 0,
+            position: 'relative',
             '& .MuiDrawer-paper': { 
               width: '20vw',
-              boxSizing: 'border-box' 
+              height: '100vh',
+              boxSizing: 'border-box' ,
+              position: 'relative',
             },
           }}
-          anchor="left"
           variant="permanent">
             <Toolbar
             sx={{
@@ -130,6 +133,9 @@ function MarketPlace() {
               justifyContent: 'flex-end',
               px: [1],
             }}>
+              <IconButton>
+                <ChevronLeftIcon />
+              </IconButton>
             </Toolbar>
             <SidebarAccordion onShow={handleFilterButton}/>
           </Drawer>
@@ -216,4 +222,4 @@ function MarketPlace() {
   );
 }
 
-export default MarketPlace;
+export default MarketPage;
