@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { SidebarAccordion } from './SidebarAccordion';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -30,12 +26,12 @@ const artists = [
     price: 0.0009,
     like: 10,
     isSold: true,
-  }, 
+  },
   {
     id: 2,
     artist: '김지수',
-    title:'모나리자',
-    price: 0.0010,
+    title: '모나리자',
+    price: 0.001,
     like: 10,
     isSold: true,
   },
@@ -46,7 +42,7 @@ const artists = [
     price: 0.0001,
     like: 1,
     isSold: false,
-  }, 
+  },
   {
     id: 4,
     artist: 'Kant',
@@ -54,7 +50,7 @@ const artists = [
     price: 0.0014,
     like: 100,
     isSold: true,
-  }, 
+  },
   {
     id: 5,
     artist: 'BenTham',
@@ -62,23 +58,23 @@ const artists = [
     price: 0.005,
     like: 100,
     isSold: false,
-  }, 
+  },
   {
     id: 6,
     artist: 'Mill',
     title: '자유론',
-    price: 0.0020,
+    price: 0.002,
     like: 20,
     isSold: true,
-  }, 
+  },
   {
     id: 7,
     artist: 'Kotaro',
     title: 'fight',
-    price: 0.0010,
+    price: 0.001,
     like: 30,
     isSold: true,
-  }, 
+  },
   {
     id: 8,
     artist: '정성하',
@@ -86,139 +82,201 @@ const artists = [
     price: 0.0093,
     like: 90,
     isSold: false,
-  }
+  },
+  {
+    id: 9,
+    artist: '박수연',
+    title: '바보',
+    price: 0.01,
+    like: 67,
+    isSold: false,
+  },
 ];
 
 const theme = createTheme({});
 
 function MarketPage() {
-  const [filterButtonShow, setFilterButtonShow] = React.useState<string>('none');
+  const [filterButtonShow, setFilterButtonShow] =
+    React.useState<string>('none');
   const [buttonNames, setButtonNames] = React.useState<Array<string>>([]);
 
-  const handleFilterButton = (event: React.SyntheticEvent, filterName: string) => {
+  const handleFilterButton = (
+    event: React.SyntheticEvent,
+    filterName: string
+  ) => {
     event.preventDefault();
     setFilterButtonShow('flex');
 
     setButtonNames(prevButtonNames => [...prevButtonNames, filterName]);
-  }
+  };
 
-  const handleRemoveFilterClick = (event: React.SyntheticEvent, filterName: string) => {
+  const handleRemoveFilterClick = (
+    event: React.SyntheticEvent,
+    filterName: string
+  ) => {
     event.preventDefault();
 
-    setButtonNames(prevButtonNames => prevButtonNames.filter(buttonNames => buttonNames !== filterName));
-  }
+    setButtonNames(prevButtonNames =>
+      prevButtonNames.filter(buttonNames => buttonNames !== filterName)
+    );
+  };
 
   return (
-      <ThemeProvider theme={theme}>
-        <Box sx={{display:'flex'}}>
-          <CssBaseline />
-          <Drawer 
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Drawer
           sx={{
             width: '20vw',
             height: '100vh',
             display: 'flex',
             position: 'relative',
-            '& .MuiDrawer-paper': { 
+            '& .MuiDrawer-paper': {
               width: '20vw',
               height: '100vh',
-              boxSizing: 'border-box' ,
+              boxSizing: 'border-box',
               position: 'relative',
             },
           }}
-          variant="permanent">
-            <Toolbar
+          variant="permanent"
+        >
+          <Toolbar
             sx={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-end',
               px: [1],
-            }}>
-              <IconButton>
-                <ChevronLeftIcon />
-              </IconButton>
-            </Toolbar>
-            <SidebarAccordion onShow={handleFilterButton}/>
-          </Drawer>
-          <Box component='main'
+            }}
+          >
+            <IconButton>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <SidebarAccordion onShow={handleFilterButton} />
+        </Drawer>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            overflow: 'auto',
+            backgroundColor: 'whitesmoke',
+          }}
+        >
+          <ButtonGroup
             sx={{
-              flexGrow: 1,
-              p: 3,
-              overflow: 'auto',
-              backgroundColor: 'whitesmoke'
-            }}>
-              <ButtonGroup sx={{
-                display: filterButtonShow
-              }}>
-                {buttonNames.map((buttonName) =>
-                  <Button 
-                  key={buttonName} 
-                  sx={{mb: 3}} 
-                  endIcon={<ClearIcon />} 
-                  onClick={(event: React.SyntheticEvent) => handleRemoveFilterClick(event, buttonName)}>{buttonName}</Button> 
-                )}
-              </ButtonGroup>
-              <Grid container spacing={4}>
-                {artists.filter((artist) => {
-                  if(buttonNames.length == 0) 
-                    return true;
-                  else 
-                    return buttonNames.includes(artist.artist);
-                }).map((artist) => (
-                  <Grid item key={artist.id} xs={12} sm={6} md={3}>
-                    <Card
-                      sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="280"
-                        image="https://source.unsplash.com/random"
-                        alt="random"
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={0} rowSpacing={0}>
-                          <Grid item xs={8}>
-                            <Typography gutterBottom variant="overline" display="block" color="text.secondary">
-                              {artist.artist}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography gutterBottom variant="overline" display="block">
-                              가격
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={8}>
-                            <Typography gutterBottom variant="overline" component="h2" display="block">
-                              {artist.title}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography gutterBottom variant="overline" display="block">
-                              {artist.price} GAS
-                            </Typography>
-                          </Grid>
+              display: filterButtonShow,
+            }}
+          >
+            {buttonNames.map(buttonName => (
+              <Button
+                key={buttonName}
+                sx={{ mb: 3 }}
+                endIcon={<ClearIcon />}
+                onClick={(event: React.SyntheticEvent) =>
+                  handleRemoveFilterClick(event, buttonName)
+                }
+              >
+                {buttonName}
+              </Button>
+            ))}
+          </ButtonGroup>
+          <Grid container spacing={4}>
+            {artists
+              .filter(artist => {
+                if (buttonNames.length == 0) return true;
+                else return buttonNames.includes(artist.artist);
+              })
+              .map(artist => (
+                <Grid item key={artist.id} xs={12} sm={6} md={3}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="280"
+                      image="https://source.unsplash.com/random"
+                      alt="random"
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={0} rowSpacing={0}>
+                        <Grid item xs={8}>
+                          <Typography
+                            gutterBottom
+                            variant="overline"
+                            display="block"
+                            color="text.secondary"
+                          >
+                            {artist.artist}
+                          </Typography>
                         </Grid>
-                      </CardContent>
-                      <CardActions
+                        <Grid item xs={4}>
+                          <Typography
+                            gutterBottom
+                            variant="overline"
+                            display="block"
+                          >
+                            가격
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography
+                            gutterBottom
+                            variant="overline"
+                            component="h2"
+                            display="block"
+                          >
+                            {artist.title}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography
+                            gutterBottom
+                            variant="overline"
+                            display="block"
+                          >
+                            {artist.price} GAS
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                    <CardActions
                       sx={{
                         height: '42',
                         width: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        flexDirection: 'row'
-                      }}>
-                        <Button size="small" variant="contained" sx={{flexGrow:1}}>구매하기</Button>
-                        <Box sx={{flexGrow: 8}}></Box>
-                        <Button size="small" startIcon={<FavoriteBorderIcon /> } sx={{flexGrow:1}} color="secondary">
-                          {artist.like >= 100 ? '99+' : artist.like}
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
-          </Box>
+                        flexDirection: 'row',
+                      }}
+                    >
+                      <Button
+                        size="small"
+                        variant="contained"
+                        sx={{ flexGrow: 1 }}
+                      >
+                        구매하기
+                      </Button>
+                      <Box sx={{ flexGrow: 8 }}></Box>
+                      <Button
+                        size="small"
+                        startIcon={<FavoriteBorderIcon />}
+                        sx={{ flexGrow: 1 }}
+                        color="secondary"
+                      >
+                        {artist.like >= 100 ? '99+' : artist.like}
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+          </Grid>
         </Box>
-      </ThemeProvider>
+      </Box>
+    </ThemeProvider>
   );
 }
 

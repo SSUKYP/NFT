@@ -1,7 +1,3 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import * as React from 'react';
 import { ListItemButton } from '@mui/material';
 import List from '@mui/material/List';
