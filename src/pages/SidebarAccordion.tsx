@@ -65,7 +65,6 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
       };
 
     const handleArtistSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(event.target.value);
       setArtist(event.target.value);
     };
 
@@ -135,6 +134,7 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
               sx={{
                 flexGrow: 2,
               }}
+              onClick={event => props.onShow(event, '판매완료')}
             >
               판매완료
             </Button>
@@ -149,6 +149,7 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
               sx={{
                 flexGrow: 2,
               }}
+              onClick={event => props.onShow(event, '판매중')}
             >
               판매중
             </Button>

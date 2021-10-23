@@ -18,65 +18,73 @@ import styled from 'styled-components';
 const artists = [
   {
     id: 1,
-    artist: '양준혁',
+    artist: 'Vincent Van Gogh',
     title: '별이 빛나는 밤',
-    price: 0.0009,
+    img: 'assets/Starry_Night.jpg',
+    price: 0.009,
     like: 10,
     isSold: true,
   },
   {
     id: 2,
-    artist: '김지수',
+    artist: 'Leonardo Da Vinci',
     title: '모나리자',
-    price: 0.001,
+    img: 'assets/Mona_Lisa.jpg',
+    price: 0.01,
     like: 10,
     isSold: true,
   },
   {
     id: 3,
-    artist: '박수민',
-    title: '해바라기',
-    price: 0.0001,
+    artist: 'Claude Monet',
+    title: '인상, 해돋이',
+    img: 'assets/Impression_Sunrise.jpg',
+    price: 0.022,
     like: 1,
     isSold: false,
   },
   {
     id: 4,
-    artist: 'Kant',
-    title: '시간표',
-    price: 0.0014,
+    artist: '백남준',
+    title: '다다익선',
+    img: 'assets/dadaikseon.jpg',
+    price: 0.014,
     like: 100,
     isSold: true,
   },
   {
     id: 5,
-    artist: 'BenTham',
-    title: '파놉티콘',
-    price: 0.005,
+    artist: 'Edvard Munch',
+    title: '절규',
+    img: 'assets/The_Scream.jpg',
+    price: 0.05,
     like: 100,
     isSold: false,
   },
   {
     id: 6,
-    artist: 'Mill',
-    title: '자유론',
-    price: 0.002,
+    artist: 'PRguitarman',
+    title: 'POP TART CAT',
+    img: 'assets/poptartcat.gif',
+    price: 0.02,
     like: 20,
     isSold: true,
   },
   {
     id: 7,
-    artist: 'Kotaro',
-    title: 'fight',
-    price: 0.001,
+    artist: 'Salvador Dali',
+    title: '기억의 지속',
+    img: 'assets/Clock.jpg',
+    price: 0.01,
     like: 30,
     isSold: true,
   },
   {
     id: 8,
-    artist: '정성하',
-    title: 'finger',
-    price: 0.0093,
+    artist: '안견',
+    title: '몽유도원도',
+    img: 'assets/mongyou.jpg',
+    price: 0.093,
     like: 90,
     isSold: false,
   },
@@ -119,6 +127,9 @@ const theme = createTheme({
     background: {
       default: 'AliceBlue',
     },
+  },
+  typography: {
+    fontFamily: 'CookieRun',
   },
 });
 
@@ -197,7 +208,7 @@ const HomePage = () => {
                         <CardMedia
                           component="img"
                           height="280"
-                          image="https://source.unsplash.com/random"
+                          image={artist.img}
                           alt="random"
                         />
                         <CardContent sx={{ flexGrow: 1 }}>
@@ -255,6 +266,11 @@ const HomePage = () => {
                             size="small"
                             variant="contained"
                             sx={{ flexGrow: 1 }}
+                            component={Link}
+                            to={{
+                              pathname: '/details',
+                              state: { Nft: artist },
+                            }}
                           >
                             구매하기
                           </Button>
