@@ -38,8 +38,12 @@ const config: Configuration = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|ico|ttf|woff2?|eot|otf|svg)$/,
-        loader: 'file-loader',
+        test: /\.(png|ico|ttf|woff2?|eot|otf|svg|gif|jpg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          }
+        ],
       },
     ],
   },
