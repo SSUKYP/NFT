@@ -17,83 +17,88 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Link } from 'react-router-dom';
 
 const artists = [
   {
     id: 1,
-    artist: '양준혁',
+    artist: 'Vincent Van Gogh',
     title: '별이 빛나는 밤',
-    price: 0.0009,
+    img: 'assets/Starry_Night.jpg',
+    price: 0.009,
     like: 10,
     isSold: true,
   },
   {
     id: 2,
-    artist: '김지수',
+    artist: 'Leonardo Da Vinci',
     title: '모나리자',
-    price: 0.001,
+    img: 'assets/Mona_Lisa.jpg',
+    price: 0.01,
     like: 10,
     isSold: true,
   },
   {
     id: 3,
-    artist: '박수민',
-    title: '해바라기',
-    price: 0.0001,
+    artist: 'Claude Monet',
+    title: '인상, 해돋이',
+    img: 'assets/Impression_Sunrise.jpg',
+    price: 0.022,
     like: 1,
     isSold: false,
   },
   {
     id: 4,
-    artist: 'Kant',
-    title: '시간표',
-    price: 0.0014,
+    artist: '백남준',
+    title: '다다익선',
+    img: 'assets/dadaikseon.jpg',
+    price: 0.014,
     like: 100,
     isSold: true,
   },
   {
     id: 5,
-    artist: 'BenTham',
-    title: '파놉티콘',
-    price: 0.005,
+    artist: 'Edvard Munch',
+    title: '절규',
+    img: 'assets/The_Scream.jpg',
+    price: 0.05,
     like: 100,
     isSold: false,
   },
   {
     id: 6,
-    artist: 'Mill',
-    title: '자유론',
-    price: 0.002,
+    artist: 'PRguitarman',
+    title: 'POP TART CAT',
+    img: 'assets/poptartcat.gif',
+    price: 0.02,
     like: 20,
     isSold: true,
   },
   {
     id: 7,
-    artist: 'Kotaro',
-    title: 'fight',
-    price: 0.001,
+    artist: 'Salvador Dali',
+    title: '기억의 지속',
+    img: 'assets/Clock.jpg',
+    price: 0.01,
     like: 30,
     isSold: true,
   },
   {
     id: 8,
-    artist: '정성하',
-    title: 'finger',
-    price: 0.0093,
+    artist: '안견',
+    title: '몽유도원도',
+    img: 'assets/mongyou.jpg',
+    price: 0.093,
     like: 90,
-    isSold: false,
-  },
-  {
-    id: 9,
-    artist: '박수연',
-    title: '바보',
-    price: 0.01,
-    like: 67,
     isSold: false,
   },
 ];
 
-const theme = createTheme({});
+const theme = createTheme({
+  typography: {
+    fontFamily: 'NotoSans',
+  },
+});
 
 function MarketPage() {
   const [filterButtonShow, setFilterButtonShow] =
@@ -185,7 +190,11 @@ function MarketPage() {
             {artists
               .filter(artist => {
                 if (buttonNames.length == 0) return true;
-                else return buttonNames.includes(artist.artist);
+                else
+                  return (
+                    buttonNames.includes(artist.artist) ||
+                    buttonNames.includes(artist.isSold ? '판매완료' : '판매중')
+                  );
               })
               .map(artist => (
                 <Grid item key={artist.id} xs={12} sm={6} md={3}>
@@ -199,8 +208,7 @@ function MarketPage() {
                     <CardMedia
                       component="img"
                       height="280"
-                      image="https://source.unsplash.com/random"
-                      alt="random"
+                      image={artist.img}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Grid container spacing={0} rowSpacing={0}>
@@ -256,7 +264,16 @@ function MarketPage() {
                       <Button
                         size="small"
                         variant="contained"
-                        sx={{ flexGrow: 1 }}
+                        sx={{
+                          flexGrow: 1,
+                          display: artist.isSold ? 'none' : 'block',
+                          textAlign: 'center',
+                        }}
+                        component={Link}
+                        to={{
+                          pathname: '/details',
+                          state: { Nft: artist },
+                        }}
                       >
                         구매하기
                       </Button>
