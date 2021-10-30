@@ -1,7 +1,7 @@
 import { useSnackbar } from 'notistack';
 import { useEffect, useMemo } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { useUserState } from '../../atom/authState';
+import { useUserState } from '../../atoms/authState';
 
 export type PrivateRouteProps = {
   path: string;
