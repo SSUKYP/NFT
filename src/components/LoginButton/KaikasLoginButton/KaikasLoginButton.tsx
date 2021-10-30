@@ -8,7 +8,7 @@ export const KaikasLoginButton = React.forwardRef(function LoginButton(
 ) {
   return (
     <Button {...props} ref={ref} startIcon={<KlaytnIcon />}>
-      Kaikas 지갑 연결
+      {'Kaikas 지갑 연결'}
     </Button>
   );
 });
