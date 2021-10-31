@@ -7,10 +7,9 @@ import MarketPage from './pages/MarketPage';
 
 type Route = {
   path: string;
-  component:
-    | React.ComponentType
-    | (({ location }: RouteComponentProps) => JSX.Element);
+  component: React.ComponentType<RouteComponentProps>;
   exact?: boolean;
+  private?: boolean;
 };
 const routes: readonly Route[] = [
   {
@@ -21,6 +20,7 @@ const routes: readonly Route[] = [
   {
     path: '/account',
     component: AccountPage,
+    private: true,
   },
   {
     path: '/market',
