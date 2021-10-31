@@ -15,6 +15,7 @@ import FormatPaintIcon from '@mui/icons-material/FormatPaintTwoTone';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderTwoTone';
 import Divider from '@mui/material/Divider';
 import TabsGrid from './TabsGrid';
+import { useUserState } from '../atoms/authState';
 
 const theme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ const users = [
 
 export default function AccountPage() {
   const [tabs, setTabs] = React.useState<string>('collected');
+  const user = useUserState();
 
   const handleTabClick = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -100,9 +102,9 @@ export default function AccountPage() {
             }}
           >
             <Typography variant="h3" component="h3" color="primary">
-              {users[2].name}
+              {user.username ?? 'Unnamed'}
             </Typography>
-            <CopyToClipboard text={users[2].walletAddress}>
+            <CopyToClipboard text={user.walletAddress}>
               <Tooltip
                 title={'복사하기'}
                 placement="top"
@@ -115,7 +117,7 @@ export default function AccountPage() {
                     component="span"
                     color="secondary"
                   >
-                    {users[2].walletAddress}
+                    {user.walletAddress}
                   </Typography>
                 </ButtonBase>
               </Tooltip>
