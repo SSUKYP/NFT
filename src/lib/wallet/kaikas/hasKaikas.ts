@@ -1,3 +1,3 @@
 export default function hasKaikas() {
-  return typeof klaytn !== 'undefined' && klaytn.isKaikas;
+  return window.klaytn && window.klaytn.isKaikas;
 }

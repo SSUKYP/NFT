@@ -11,11 +11,11 @@ async function signNonce(walletAddress: Hex) {
   return caver.klay.sign(message, walletAddress);
 }
 
-export default function useLogin() {
+export default function useKlaytnLogin() {
   const { authorize } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
-  const login = useCallback(async () => {
+  const login = useCallback(async (): Promise<boolean> => {
     try {
       await klaytn.enable();
       const walletAddress = klaytn.selectedAddress;
@@ -26,8 +26,10 @@ export default function useLogin() {
       });
       authorize(res.access_token);
       history.replace('/');
+      return true;
     } catch (err) {
       enqueueSnackbar(err.message, { variant: 'error' });
+      return false;
     }
   }, [enqueueSnackbar, authorize, history]);
 

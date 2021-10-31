@@ -1,5 +1,8 @@
 import { ButtonGroup, Divider, Stack, Typography } from '@mui/material';
-import { KaikasLoginButton } from '../components/LoginButton';
+import {
+  KaikasLoginButton,
+  MetamaskLoginButton,
+} from '../components/LoginButton';
 
 export default function LoginPage() {
   return (
@@ -17,6 +20,7 @@ export default function LoginPage() {
           color="primary"
         >
           <KaikasLoginButton />
+          <MetamaskLoginButton />
         </ButtonGroup>
       </Stack>
     </Stack>

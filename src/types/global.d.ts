@@ -25,6 +25,7 @@ declare class SignatureData {
 
 interface Utils {
   isAddress(address: Hex): boolean;
+  decodeSignature(address: Hex): SignatureData;
 }
 
 interface Wallet {
@@ -71,10 +72,11 @@ interface Klay {
   sign(message: string, address: Hex): Hex;
 }
 
-type RequestProvider = string | KlaytnProvider;
+type RequestProvider = string | KlaytnProvider | Caver;
 
 declare class Caver {
   static utils: Utils;
+  utils: Utils;
   version: string;
   wallet: Wallet;
   klay: Klay;
@@ -82,10 +84,13 @@ declare class Caver {
   constructor(provider?: RequestProvider, net?: string);
 }
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 interface Window {
   klaytn: KlaytnProvider;
   caver: Caver;
+  ethereum: any;
 }
 
 declare const klaytn: KlaytnProvider;
 declare const caver: Caver;
+declare const ethereum: any;

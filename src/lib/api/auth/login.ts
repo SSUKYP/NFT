@@ -6,6 +6,7 @@ type LoginResponce = {
 type LoginPayload = {
   walletAddress: Hex;
   signature: Hex;
+  chain?: string;
 };
 
 export default async function login(payload: LoginPayload) {
