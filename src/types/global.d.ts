@@ -46,10 +46,23 @@ interface Wallet {
   };
 }
 
+declare enum KlaytnNetworkVersion {
+  BAOBAB = 1001,
+  CYPRESS = 8217,
+}
+
 interface KlaytnProvider {
-  networkVersion: '1001' | '8217';
+  networkVersion: KlaytnNetworkVersion;
   selectedAddress: Hex;
   enable(): Promise<void>;
+  on(
+    event: 'networkChanged',
+    callback: (networkVersion: number) => void
+  ): KlaytnProvider;
+  off(
+    event: 'networkChanged',
+    callback: (networkVersion: number) => void
+  ): KlaytnProvider;
 
   isKaikas: boolean;
 }
