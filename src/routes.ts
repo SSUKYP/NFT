@@ -7,9 +7,7 @@ import MarketPage from './pages/MarketPage';
 
 type Route = {
   path: string;
-  component:
-    | React.ComponentType
-    | (({ location }: RouteComponentProps) => JSX.Element);
+  component: React.ComponentType<RouteComponentProps>;
   exact?: boolean;
   private?: boolean;
 };

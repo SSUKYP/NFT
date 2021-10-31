@@ -15,17 +15,15 @@ import App from './App';
 import theme from './theme';
 
 const Root: VFC = () => (
-  <>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RecoilRoot>
-        <Router>
-          <SnackbarProvider maxSnack={3} autoHideDuration={1000}>
-            <App />
-          </SnackbarProvider>
-        </Router>
-      </RecoilRoot>
-    </ThemeProvider>
-  </>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <RecoilRoot>
+      <Router>
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
+      </Router>
+    </RecoilRoot>
+  </ThemeProvider>
 );
 ReactDOM.render(<Root />, document.getElementById('root'));
