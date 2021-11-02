@@ -1,3 +1,3 @@
-export default async function hasMetamask() {
+export default function hasMetamask() {
   return window.ethereum && window.ethereum.isMetaMask;
 }
