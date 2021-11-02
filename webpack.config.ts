@@ -39,12 +39,8 @@ const config: Configuration = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|ico|ttf|woff2?|eot|otf|gif|jpg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
+        test: /\.(ico|ttf|woff2?|eot|otf|jpg|png|gif|svg)$/i,
+        loader: 'file-loader',
       },
       {
         test: /\.svg$/,
