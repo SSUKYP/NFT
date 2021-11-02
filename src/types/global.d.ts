@@ -56,14 +56,9 @@ interface KlaytnProvider {
   networkVersion: KlaytnNetworkVersion;
   selectedAddress: Hex;
   enable(): Promise<void>;
-  on(
-    event: 'networkChanged',
-    callback: (networkVersion: number) => void
-  ): KlaytnProvider;
-  off(
-    event: 'networkChanged',
-    callback: (networkVersion: number) => void
-  ): KlaytnProvider;
+  on(event: string, callback: (...args: unknown[]) => void): KlaytnProvider;
+  off(event: string, callback: (...args: unknown[]) => void): KlaytnProvider;
+  once(event: string, callback: (...args: unknown[]) => void): KlaytnProvider;
 
   isKaikas: boolean;
 }

@@ -23,7 +23,7 @@ export default function useWalletNetworkState() {
       case 'metamask': {
         ethereum.on('chainChanged', callback);
         return () => {
-          ethereum.off('chainChanged', callback);
+          ethereum.removeListener('chainChanged', callback);
         };
       }
 
