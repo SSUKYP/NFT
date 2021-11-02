@@ -1,10 +1,8 @@
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import CssBaseline from '@mui/material/CssBaseline';
 import ButtonBase from '@mui/material/ButtonBase';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from '@mui/material/Tooltip';
@@ -16,17 +14,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderTwoTone';
 import Divider from '@mui/material/Divider';
 import TabsGrid from './TabsGrid';
 import { useUserState } from '../atoms/authState';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#6f6558',
-    },
-    secondary: {
-      main: '#F08080',
-    },
-  },
-});
 
 const users = [
   {
@@ -64,9 +51,14 @@ export default function AccountPage() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'white',
+        }}
+      >
         <Grid container spacing={0} rowSpacing={4} sx={{ mt: 3 }}>
           <Grid
             item
@@ -115,14 +107,14 @@ export default function AccountPage() {
                   <Typography
                     variant="overline"
                     component="span"
-                    color="secondary"
+                    color="#F08080"
                   >
                     {user.walletAddress}
                   </Typography>
                 </ButtonBase>
               </Tooltip>
             </CopyToClipboard>
-            <Typography component="p" color="primary">
+            <Typography component="p" color="#6f6558">
               Joined {users[2].createdDate}
             </Typography>
           </Grid>
@@ -190,6 +182,6 @@ export default function AccountPage() {
       >
         <TabsGrid tabs={tabs} />
       </Grid>
-    </ThemeProvider>
+    </Box>
   );
 }

@@ -96,7 +96,9 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
             }}
           >
             <FilterListIcon sx={{ width: '33%', flexShrink: 0 }} />
-            <Typography sx={{ flexGrow: 2 }}>필터</Typography>
+            <Typography sx={{ flexGrow: 2 }} variant="body2">
+              필터
+            </Typography>
           </AccordionSummary>
           <AccordionDetails></AccordionDetails>
         </Accordion>
@@ -120,7 +122,9 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
             }}
           >
             <ShopTwoToneIcon sx={{ flexGrow: 1 }} />
-            <Typography sx={{ flexGrow: 2 }}>판매 상태</Typography>
+            <Typography sx={{ flexGrow: 2 }} variant="body2">
+              판매 상태
+            </Typography>
           </AccordionSummary>
           <AccordionDetails
             sx={{
@@ -175,7 +179,9 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
             }}
           >
             <PersonSearchTwoToneIcon sx={{ flexGrow: 1 }} />
-            <Typography sx={{ flexGrow: 2 }}>작가별</Typography>
+            <Typography sx={{ flexGrow: 2 }} variant="body2">
+              작가별
+            </Typography>
           </AccordionSummary>
           <AccordionDetails
             sx={{
@@ -229,7 +235,9 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
             }}
           >
             <ArchiveTwoToneIcon sx={{ flexGrow: 1 }} />
-            <Typography sx={{ flexGrow: 2 }}>소유자별</Typography>
+            <Typography sx={{ flexGrow: 2 }} variant="body2">
+              소유자별
+            </Typography>
           </AccordionSummary>
           <AccordionDetails
             sx={{
@@ -284,7 +292,9 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
             }}
           >
             <ColorLensTwoToneIcon sx={{ flexGrow: 1 }} />
-            <Typography sx={{ flexGrow: 2 }}>작품별</Typography>
+            <Typography sx={{ flexGrow: 2 }} variant="body2">
+              작품별
+            </Typography>
           </AccordionSummary>
           <AccordionDetails></AccordionDetails>
         </Accordion>
