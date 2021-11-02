@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -121,17 +120,6 @@ const Slider = styled(SlickSlider)`
   }
 `;
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: 'AliceBlue',
-    },
-  },
-  typography: {
-    fontFamily: 'CookieRun',
-  },
-});
-
 const HomePage = () => {
   const settings = {
     dots: true,
@@ -143,170 +131,167 @@ const HomePage = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
+    <Box sx={{ display: 'flex' }} fontFamily="CookieRun">
+      <Grid
+        container
+        spacing={4}
+        sx={{ mt: 3, alignItems: 'center', justifyContent: 'center' }}
+      >
         <Grid
           container
-          spacing={4}
-          sx={{ mt: 3, alignItems: 'center', justifyContent: 'center' }}
+          spacing={3}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
         >
           <Grid
-            container
-            spacing={3}
+            item
+            xs={12}
             sx={{
-              display: 'flex',
-              flexDirection: 'row',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="h2" component="h2">
+              KlaySea에 오신 걸 환영합니다.
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="overline" component="div">
+              MOST LOVED ARTS
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Grid
-              item
-              xs={12}
-              sx={{
-                alignItems: 'center',
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant="h2" component="h2">
-                KlaySea에 오신 걸 환영합니다.
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant="overline" component="div">
-                MOST LOVED ARTS
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Slider {...settings}>
-                {artists
-                  .filter(artist => artist.like > 10)
-                  .map(artist => (
-                    <div key={artist.id}>
-                      <Card
+            <Slider {...settings}>
+              {artists
+                .filter(artist => artist.like > 10)
+                .map(artist => (
+                  <div key={artist.id}>
+                    <Card
+                      sx={{
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        ml: 10,
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="280"
+                        image={artist.img}
+                        alt="random"
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Grid container spacing={0} rowSpacing={0}>
+                          <Grid item xs={8}>
+                            <Typography
+                              gutterBottom
+                              variant="overline"
+                              display="block"
+                              color="text.secondary"
+                            >
+                              {artist.artist}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              gutterBottom
+                              variant="overline"
+                              display="block"
+                            >
+                              가격
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={8}>
+                            <Typography
+                              gutterBottom
+                              variant="overline"
+                              component="h2"
+                              display="block"
+                            >
+                              {artist.title}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography
+                              gutterBottom
+                              variant="overline"
+                              display="block"
+                            >
+                              {artist.price} GAS
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                      <CardActions
                         sx={{
-                          height: '100%',
+                          height: '42',
+                          width: '100%',
                           display: 'flex',
-                          flexDirection: 'column',
-                          ml: 10,
+                          alignItems: 'center',
+                          flexDirection: 'row',
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          height="280"
-                          image={artist.img}
-                          alt="random"
-                        />
-                        <CardContent sx={{ flexGrow: 1 }}>
-                          <Grid container spacing={0} rowSpacing={0}>
-                            <Grid item xs={8}>
-                              <Typography
-                                gutterBottom
-                                variant="overline"
-                                display="block"
-                                color="text.secondary"
-                              >
-                                {artist.artist}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <Typography
-                                gutterBottom
-                                variant="overline"
-                                display="block"
-                              >
-                                가격
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                              <Typography
-                                gutterBottom
-                                variant="overline"
-                                component="h2"
-                                display="block"
-                              >
-                                {artist.title}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <Typography
-                                gutterBottom
-                                variant="overline"
-                                display="block"
-                              >
-                                {artist.price} GAS
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </CardContent>
-                        <CardActions
-                          sx={{
-                            height: '42',
-                            width: '100%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: 'row',
+                        <Button
+                          size="small"
+                          variant="contained"
+                          sx={{ flexGrow: 1 }}
+                          component={Link}
+                          to={{
+                            pathname: '/details',
+                            state: { Nft: artist },
                           }}
                         >
-                          <Button
-                            size="small"
-                            variant="contained"
-                            sx={{ flexGrow: 1 }}
-                            component={Link}
-                            to={{
-                              pathname: '/details',
-                              state: { Nft: artist },
-                            }}
-                          >
-                            구매하기
-                          </Button>
-                          <Box sx={{ flexGrow: 8 }}></Box>
-                          <Button
-                            size="small"
-                            startIcon={<FavoriteBorderIcon />}
-                            sx={{ flexGrow: 1 }}
-                            color="secondary"
-                          >
-                            {artist.like >= 100 ? '99+' : artist.like}
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </div>
-                  ))}
-              </Slider>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                mt: 3,
-              }}
-            >
-              <Button component={Link} to="/market" variant="outlined">
-                보러가기
-              </Button>
-            </Grid>
+                          구매하기
+                        </Button>
+                        <Box sx={{ flexGrow: 8 }}></Box>
+                        <Button
+                          size="small"
+                          startIcon={<FavoriteBorderIcon />}
+                          sx={{ flexGrow: 1 }}
+                          color="secondary"
+                        >
+                          {artist.like >= 100 ? '99+' : artist.like}
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </div>
+                ))}
+            </Slider>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              alignItems: 'center',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              mt: 3,
+            }}
+          >
+            <Button component={Link} to="/market" variant="outlined">
+              보러가기
+            </Button>
           </Grid>
         </Grid>
-      </Box>
-    </ThemeProvider>
+      </Grid>
+    </Box>
   );
 };
 
