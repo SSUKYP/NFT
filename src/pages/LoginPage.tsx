@@ -18,6 +18,7 @@ export default function LoginPage() {
           orientation="vertical"
           aria-label="wallet connect button group"
           color="primary"
+          size="large"
         >
           <KaikasLoginButton />
           <MetamaskLoginButton />
