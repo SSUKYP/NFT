@@ -99,7 +99,9 @@ const ArtistList: React.FunctionComponent<FromSidebarAccordion> = props => {
       }}
     >
       {artists
-        .filter(artist => artist.artist.toLowerCase().includes(filterName))
+        .filter(artist => {
+          return artist.artist.toLowerCase().includes(filterName);
+        })
         .map((artist, index) => (
           <ListItem
             sx={{

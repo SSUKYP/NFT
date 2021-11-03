@@ -34,6 +34,7 @@ const artists = [
     price: 0.009,
     like: 10,
     isSold: true,
+    tag: 'jpg',
   },
   {
     id: 2,
@@ -43,6 +44,7 @@ const artists = [
     price: 0.01,
     like: 10,
     isSold: true,
+    tag: 'jpg',
   },
   {
     id: 3,
@@ -52,6 +54,7 @@ const artists = [
     price: 0.022,
     like: 1,
     isSold: false,
+    tag: 'jpg',
   },
   {
     id: 4,
@@ -61,6 +64,7 @@ const artists = [
     price: 0.014,
     like: 100,
     isSold: true,
+    tag: 'jpg',
   },
   {
     id: 5,
@@ -70,6 +74,7 @@ const artists = [
     price: 0.05,
     like: 100,
     isSold: false,
+    tag: 'jpg',
   },
   {
     id: 6,
@@ -79,6 +84,7 @@ const artists = [
     price: 0.02,
     like: 20,
     isSold: true,
+    tag: 'gif',
   },
   {
     id: 7,
@@ -88,6 +94,7 @@ const artists = [
     price: 0.01,
     like: 30,
     isSold: true,
+    tag: 'jpg',
   },
   {
     id: 8,
@@ -97,6 +104,7 @@ const artists = [
     price: 0.093,
     like: 90,
     isSold: false,
+    tag: 'jpg',
   },
 ];
 
@@ -110,6 +118,8 @@ function MarketPage() {
     filterName: string
   ) => {
     event.preventDefault();
+    if (buttonNames.includes(filterName)) return;
+
     setFilterButtonShow('flex');
 
     setButtonNames(prevButtonNames => [...prevButtonNames, filterName]);
@@ -190,8 +200,9 @@ function MarketPage() {
               if (buttonNames.length == 0) return true;
               else
                 return (
+                  buttonNames.includes(artist.isSold ? '판매완료' : '판매중') ||
                   buttonNames.includes(artist.artist) ||
-                  buttonNames.includes(artist.isSold ? '판매완료' : '판매중')
+                  buttonNames.includes(artist.tag)
                 );
             })
             .map(artist => (

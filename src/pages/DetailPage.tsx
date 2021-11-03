@@ -95,8 +95,6 @@ const DetailPage = ({ location }: RouteComponentProps) => {
     },
   ];
 
-  console.log(transactions);
-
   return (
     <Grid
       container
@@ -119,7 +117,7 @@ const DetailPage = ({ location }: RouteComponentProps) => {
               {+nft.Nft.like >= 100 ? '99+' : +nft.Nft.like}
             </Button>
           </CardActions>
-          <CardMedia component="img" height="280" image={'../' + nft.Nft.img} />
+          <CardMedia component="img" height="280" image={nft.Nft.img} />
         </Card>
         <Paper sx={{ mt: 3 }}>
           <Table>

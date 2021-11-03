@@ -12,13 +12,21 @@ import { Link } from 'react-router-dom';
 import SlickSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Starry_Night from '../assets/Starry_Night.jpg';
+import Mona_Lisa from '../assets/Mona_Lisa.jpg';
+import ImpSun from '../assets/Impression_Sunrise.jpg';
+import Dadaikseon from '../assets/dadaikseon.jpg';
+import Scream from '../assets/The_Scream.jpg';
+import PopTartCat from '../assets/poptartcat.gif';
+import Clock from '../assets/Clock.jpg';
+import Mongyou from '../assets/mongyou.jpg';
 
 const artists = [
   {
     id: 1,
     artist: 'Vincent Van Gogh',
     title: '별이 빛나는 밤',
-    img: 'assets/Starry_Night.jpg',
+    img: Starry_Night,
     price: 0.009,
     like: 10,
     isSold: true,
@@ -27,7 +35,7 @@ const artists = [
     id: 2,
     artist: 'Leonardo Da Vinci',
     title: '모나리자',
-    img: 'assets/Mona_Lisa.jpg',
+    img: Mona_Lisa,
     price: 0.01,
     like: 10,
     isSold: true,
@@ -36,7 +44,7 @@ const artists = [
     id: 3,
     artist: 'Claude Monet',
     title: '인상, 해돋이',
-    img: 'assets/Impression_Sunrise.jpg',
+    img: ImpSun,
     price: 0.022,
     like: 1,
     isSold: false,
@@ -45,7 +53,7 @@ const artists = [
     id: 4,
     artist: '백남준',
     title: '다다익선',
-    img: 'assets/dadaikseon.jpg',
+    img: Dadaikseon,
     price: 0.014,
     like: 100,
     isSold: true,
@@ -54,7 +62,7 @@ const artists = [
     id: 5,
     artist: 'Edvard Munch',
     title: '절규',
-    img: 'assets/The_Scream.jpg',
+    img: Scream,
     price: 0.05,
     like: 100,
     isSold: false,
@@ -63,7 +71,7 @@ const artists = [
     id: 6,
     artist: 'PRguitarman',
     title: 'POP TART CAT',
-    img: 'assets/poptartcat.gif',
+    img: PopTartCat,
     price: 0.02,
     like: 20,
     isSold: true,
@@ -72,7 +80,7 @@ const artists = [
     id: 7,
     artist: 'Salvador Dali',
     title: '기억의 지속',
-    img: 'assets/Clock.jpg',
+    img: Clock,
     price: 0.01,
     like: 30,
     isSold: true,
@@ -81,7 +89,7 @@ const artists = [
     id: 8,
     artist: '안견',
     title: '몽유도원도',
-    img: 'assets/mongyou.jpg',
+    img: Mongyou,
     price: 0.093,
     like: 90,
     isSold: false,

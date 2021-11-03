@@ -17,6 +17,7 @@ import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import ArtistList from './ArtistList';
+import TagList from './TagList';
 import { makeStyles } from '@mui/styles';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -57,6 +58,7 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
     const [expand, setExpand] = React.useState<string | false>('panel1');
     const [artist, setArtist] = React.useState<string | false>('');
     const [owner, setOwner] = React.useState<string | false>('');
+    const [tag, setTag] = React.useState<string | false>('');
 
     const handleChange =
       (panel: string) =>
@@ -70,6 +72,10 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
 
     const handleOwnerSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setOwner(event.target.value);
+    };
+
+    const handleTagSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTag(event.target.value);
     };
 
     const classes = styledScroll();
@@ -296,7 +302,37 @@ export const SidebarAccordion: React.FunctionComponent<onShowCallback> =
               작품별
             </Typography>
           </AccordionSummary>
-          <AccordionDetails></AccordionDetails>
+          <AccordionDetails
+            sx={{
+              backgroundColor: '#BCCEFB30',
+              color: '#FFFFFF',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box className={classes.root}>
+              <Paper
+                component="form"
+                sx={{
+                  p: '2px 4px',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  height: '5vh',
+                }}
+              >
+                <SearchTwoToneIcon />
+                <StyledInputBase
+                  placeholder="작품별 선택..."
+                  onChange={handleTagSearch}
+                  value={tag}
+                />
+              </Paper>
+              <TagList filterName={tag} onShow={props.onShow} />
+            </Box>
+          </AccordionDetails>
         </Accordion>
       </div>
     );
