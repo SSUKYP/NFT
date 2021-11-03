@@ -41,10 +41,13 @@ const config: Configuration = {
       {
         test: /\.(ico|ttf|woff2?|eot|otf|jpg|png|gif|svg)$/i,
         loader: 'file-loader',
+<<<<<<< HEAD
       },
       {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
+=======
+>>>>>>> 8bf17aa66a57c1e9fd42621d51d4db6aeb84f7b9
       },
     ],
   },
