@@ -2,7 +2,6 @@ import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import AppHeader from './layouts/AppHeader';
 import routes from './routes';
-import './App.css';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import useWalletNetworkState from './hooks/useWalletNetworkState';

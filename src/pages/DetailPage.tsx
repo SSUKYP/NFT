@@ -2,8 +2,6 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Grid from '@mui/material/Grid';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Button from '@mui/material/Button';
 import Chart from './Chart';
@@ -42,15 +40,6 @@ type Nft = {
     isSold: boolean;
   };
 };
-
-const theme = createTheme({
-  typography: {
-    fontFamily: 'CookieRun',
-    body2: {
-      fontFamily: 'NotoSans',
-    },
-  },
-});
 
 const KlayInKRW = 1968;
 
@@ -106,106 +95,31 @@ const DetailPage = ({ location }: RouteComponentProps) => {
     },
   ];
 
-  console.log(transactions);
-
   return (
-    <ThemeProvider theme={theme}>
-      <Grid
-        container
-        component="main"
-        sx={{
-          height: '90vh',
-          mt: 3,
-          justifyContent: 'center',
-        }}
-      >
-        <CssBaseline />
-        <Grid
-          item
-          xs={4}
-          sx={{ minHeight: '280px', maxWidth: '400px', mr: 10 }}
-        >
-          <Card>
-            <CardActions>
-              <Button
-                size="small"
-                startIcon={<FavoriteBorderIcon />}
-                sx={{ flexGrow: 1 }}
-                color="secondary"
-              >
-                {+nft.Nft.like >= 100 ? '99+' : +nft.Nft.like}
-              </Button>
-            </CardActions>
-            <CardMedia
-              component="img"
-              height="280"
-              image={'../' + nft.Nft.img}
-            />
-          </Card>
-          <Paper sx={{ mt: 3 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      flexWrap: 'wrap',
-                    }}
-                  >
-                    <DescriptionTwoToneIcon />
-                    <Typography variant="h6" component="span">
-                      Description
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Typography>작가 : {nft.Nft.artist}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography>제목 : {nft.Nft.title}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography>가격 : {nft.Nft.price}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'right',
-                      alignItems: 'right',
-                    }}
-                  >
-                    <Button
-                      startIcon={<PaymentTwoToneIcon />}
-                      size="large"
-                      variant="outlined"
-                    >
-                      구매하기
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Paper>
-        </Grid>
-        <Grid
-          item
-          xs={8}
-          sx={{
-            maxHeight: '500px',
-            maxWidth: '1100px',
-            justifyContent: 'center',
-          }}
-        >
+    <Grid
+      container
+      component="main"
+      sx={{
+        height: '90vh',
+        mt: 3,
+        justifyContent: 'center',
+      }}
+    >
+      <Grid item xs={4} sx={{ minHeight: '280px', maxWidth: '400px', mr: 10 }}>
+        <Card>
+          <CardActions>
+            <Button
+              size="small"
+              startIcon={<FavoriteBorderIcon />}
+              sx={{ flexGrow: 1 }}
+              color="secondary"
+            >
+              {+nft.Nft.like >= 100 ? '99+' : +nft.Nft.like}
+            </Button>
+          </CardActions>
+          <CardMedia component="img" height="280" image={nft.Nft.img} />
+        </Card>
+        <Paper sx={{ mt: 3 }}>
           <Table>
             <TableHead>
               <TableRow>
@@ -216,85 +130,141 @@ const DetailPage = ({ location }: RouteComponentProps) => {
                     flexWrap: 'wrap',
                   }}
                 >
-                  <AttachMoneyTwoToneIcon />
+                  <DescriptionTwoToneIcon />
                   <Typography variant="h6" component="span">
-                    가격변동
+                    Description
                   </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
-          </Table>
-          <Chart data={data} />
-          <Divider />
-        </Grid>
-        <Grid item xs={10}>
-          <Paper elevation={1} sx={{ width: '100%', overflowX: 'auto' }}>
-            <Table stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    sx={{
-                      flexWrap: 'wrap',
-                      width: '100%',
-                    }}
-                    colSpan={5}
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Typography>작가 : {nft.Nft.artist}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography>제목 : {nft.Nft.title}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography>가격 : {nft.Nft.price}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'right',
+                    alignItems: 'right',
+                  }}
+                >
+                  <Button
+                    startIcon={<PaymentTwoToneIcon />}
+                    size="large"
+                    variant="outlined"
                   >
-                    <MoneyTwoToneIcon />
-                    <Typography variant="h6" component="span">
-                      거래내역
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography>발생</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>가격</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>FROM</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>TO</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>날짜</Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {transactions.map(transaction => (
-                  <TableRow key={transaction.id}>
-                    <TableCell>
-                      <Typography variant="body2">등록</Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2">
-                        {transaction.price}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2">
-                        {transaction.from}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2">{transaction.to}</Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2">
-                        {transaction.date}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        </Grid>
+                    구매하기
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Paper>
       </Grid>
-    </ThemeProvider>
+      <Grid
+        item
+        xs={8}
+        sx={{
+          maxHeight: '500px',
+          maxWidth: '1100px',
+          justifyContent: 'center',
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <AttachMoneyTwoToneIcon />
+                <Typography variant="h6" component="span">
+                  가격변동
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+        <Chart data={data} />
+        <Divider />
+      </Grid>
+      <Grid item xs={10}>
+        <Paper elevation={1} sx={{ width: '100%', overflowX: 'auto' }}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  sx={{
+                    flexWrap: 'wrap',
+                    width: '100%',
+                  }}
+                  colSpan={5}
+                >
+                  <MoneyTwoToneIcon />
+                  <Typography variant="h6" component="span">
+                    거래내역
+                  </Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography>발생</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>가격</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>FROM</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>TO</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>날짜</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactions.map(transaction => (
+                <TableRow key={transaction.id}>
+                  <TableCell>
+                    <Typography variant="body2">등록</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">{transaction.price}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">{transaction.from}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">{transaction.to}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2">{transaction.date}</Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 };
 
