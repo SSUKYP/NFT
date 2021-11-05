@@ -290,17 +290,6 @@ function MarketPage() {
                       sx={{ flexGrow: 1 }}
                       color="secondary"
                     >
-                      <Typography variant="body2">
-                        {!artist.isSold ? '구매하기' : '보러가기'}
-                      </Typography>
-                    </Button>
-                    <Box sx={{ flexGrow: 8 }}></Box>
-                    <Button
-                      size="small"
-                      startIcon={<FavoriteBorderIcon />}
-                      sx={{ flexGrow: 1 }}
-                      color="secondary"
-                    >
                       {artist.like >= 100 ? '99+' : artist.like}
                     </Button>
                   </CardActions>
