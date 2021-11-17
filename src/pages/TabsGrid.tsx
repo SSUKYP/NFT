@@ -11,13 +11,18 @@ import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import MarketPage from './MarketPage';
 import { Link } from 'react-router-dom';
+import StarryNight from '../assets/Starry_Night.jpg';
+import MonaLisa from '../assets/Mona_Lisa.jpg';
+import PopTartCat from '../assets/poptartcat.gif';
+import Clock from '../assets/Clock.jpg';
+import Mongyou from '../assets/mongyou.jpg';
 
 const collectedItems = [
   {
     id: 1,
     artist: 'Vincent Van Gogh',
     title: '별이 빛나는 밤',
-    img: 'assets/Starry_Night.jpg',
+    img: StarryNight,
     price: 0.009,
     like: 10,
     isSold: true,
@@ -26,7 +31,7 @@ const collectedItems = [
     id: 2,
     artist: 'Leonardo Da Vinci',
     title: '모나리자',
-    img: 'assets/Mona_Lisa.jpg',
+    img: MonaLisa,
     price: 0.01,
     like: 10,
     isSold: true,
@@ -48,7 +53,7 @@ const lovedItems = [
     id: 0,
     artist: 'PRguitarman',
     title: 'POP TART CAT',
-    img: 'assets/poptartcat.gif',
+    img: PopTartCat,
     price: 0.02,
     like: 20,
     isSold: true,
@@ -57,7 +62,7 @@ const lovedItems = [
     id: 1,
     artist: 'Salvador Dali',
     title: '기억의 지속',
-    img: 'assets/Clock.jpg',
+    img: Clock,
     price: 0.01,
     like: 30,
     isSold: true,
@@ -66,7 +71,7 @@ const lovedItems = [
     id: 2,
     artist: '안견',
     title: '몽유도원도',
-    img: 'assets/mongyou.jpg',
+    img: Mongyou,
     price: 0.093,
     like: 90,
     isSold: false,

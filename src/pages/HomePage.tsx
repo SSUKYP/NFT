@@ -293,8 +293,16 @@ const HomePage = () => {
               mt: 3,
             }}
           >
-            <Button component={Link} to="/market" variant="outlined">
+            <Button
+              component={Link}
+              to="/market"
+              variant="outlined"
+              sx={{ mr: 2 }}
+            >
               보러가기
+            </Button>
+            <Button component={Link} to="/add" variant="outlined">
+              미술품 등록
             </Button>
           </Grid>
         </Grid>
