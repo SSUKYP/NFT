@@ -1,9 +1,9 @@
 import { AtomEffect, DefaultValue } from 'recoil';
 
-const localStorageEffect =
+const sessionStorageEffect =
   <T>(key: string): AtomEffect<T> =>
   ({ setSelf, onSet }) => {
-    const data = localStorage.getItem(key);
+    const data = sessionStorage.getItem(key);
     try {
       if (!data) {
         setSelf(new DefaultValue());
@@ -12,17 +12,17 @@ const localStorageEffect =
         setSelf(parsed);
       }
     } catch (e) {
-      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
       setSelf(new DefaultValue());
     }
 
     onSet(newValue => {
       if (newValue instanceof DefaultValue) {
-        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
       } else {
-        localStorage.setItem(key, JSON.stringify(newValue));
+        sessionStorage.setItem(key, JSON.stringify(newValue));
       }
     });
   };
 
-export default localStorageEffect;
+export default sessionStorageEffect;

@@ -1,5 +1,5 @@
 export default function nonceMessageTemplate(
-  walletAddress: Hex,
+  walletAddress: string,
   nonce: number
 ) {
   return `Welcome to KlaySea!
