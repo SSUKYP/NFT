@@ -1,21 +1,22 @@
 import { b64utoutf8, KJUR } from 'jsrsasign';
 import { useCallback } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import localStorageEffect from '../lib/storage/localStorageEffect';
+import sessionStorageEffect from '../lib/storage/sessionStorageEffect';
 
-type User = {
+type UserPayload = {
   sub: string;
   walletAddress: string;
   username: string;
+  chain: 'ETH' | null;
 };
 
 const userTokenState = atom<string | null>({
   key: 'userTokenState',
   default: null,
-  effects_UNSTABLE: [localStorageEffect<string>('accessToken')],
+  effects_UNSTABLE: [sessionStorageEffect<string>('accessToken')],
 });
 
-const userState = selector<User | null>({
+export const userState = selector<UserPayload | null>({
   key: 'userState',
   get({ get }) {
     const token = get(userTokenState);
@@ -24,7 +25,7 @@ const userState = selector<User | null>({
     }
     return KJUR.jws.JWS.readSafeJSONString(
       b64utoutf8(token.split('.')[1])
-    ) as unknown as User;
+    ) as unknown as UserPayload;
   },
 });
 

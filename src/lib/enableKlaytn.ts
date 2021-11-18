@@ -1,4 +1,4 @@
-export default async function enableKlaytn(): Promise<Hex> {
+export default async function enableKlaytn(): Promise<string> {
   try {
     await klaytn.enable();
   } catch (err) {

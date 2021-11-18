@@ -4,8 +4,8 @@ type LoginResponce = {
   access_token: string;
 };
 type LoginPayload = {
-  walletAddress: Hex;
-  signature: Hex;
+  walletAddress: string;
+  signature: string;
   chain?: string;
 };
 

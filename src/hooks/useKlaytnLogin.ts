@@ -2,11 +2,12 @@ import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useAuth from '../atoms/authState';
+import { useWalletNetwork } from '../atoms/networkState';
 import { auth } from '../lib/api';
 import enableKlaytn from '../lib/enableKlaytn';
 import nonceMessageTemplate from '../lib/nonceMessageTemplate';
 
-async function signNonce(walletAddress: Hex) {
+async function signNonce(walletAddress: string) {
   const nonce = (await auth.challengeNonce(walletAddress)).nonce;
   const message = nonceMessageTemplate(walletAddress, nonce);
   return caver.klay.sign(message, walletAddress);
@@ -15,6 +16,7 @@ async function signNonce(walletAddress: Hex) {
 export default function useKlaytnLogin() {
   const { authorize } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
+  const [, setNetwork] = useWalletNetwork();
   const history = useHistory();
   const login = useCallback(async (): Promise<boolean> => {
     try {
@@ -31,13 +33,14 @@ export default function useKlaytnLogin() {
 
       authorize(res.access_token);
       history.replace('/');
+
+      setNetwork(klaytn.networkVersion);
       return true;
     } catch (err) {
-      console.error(err);
-      enqueueSnackbar(err.message, { variant: 'error' });
+      enqueueSnackbar('거부되었습니다.', { variant: 'error' });
       return false;
     }
-  }, [enqueueSnackbar, authorize, history]);
+  }, [enqueueSnackbar, authorize, history, setNetwork]);
 
   return login;
 }

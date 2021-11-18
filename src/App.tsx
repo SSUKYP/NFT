@@ -4,11 +4,14 @@ import AppHeader from './layouts/AppHeader';
 import routes from './routes';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
-import useWalletNetworkState from './hooks/useWalletNetworkState';
+import { useWalletNetwork } from './atoms/networkState';
+import { useChainEffect } from './atoms/signedWalletState';
 
 function App() {
   const { enqueueSnackbar } = useSnackbar();
-  const network = useWalletNetworkState();
+  const [network] = useWalletNetwork();
+
+  useChainEffect();
 
   useEffect(
     function watchNetwork() {

@@ -5,7 +5,7 @@ import useAuth from '../atoms/authState';
 import { auth } from '../lib/api';
 import nonceMessageTemplate from '../lib/nonceMessageTemplate';
 
-async function signNonce(walletAddress: Hex) {
+async function signNonce(walletAddress: string) {
   const nonce = (await auth.challengeNonce(walletAddress)).nonce;
   const message = nonceMessageTemplate(walletAddress, nonce);
 
