@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { atom, SetterOrUpdater, useRecoilState } from 'recoil';
+import ethereumProviderProxy from '../lib/ethereumProviderProxy';
+import useAuth from './authState';
 import { useSignedWallet } from './signedWalletState';
 
 const networkState = atom<KlaytnNetworkVersion | null>({
@@ -13,6 +15,8 @@ export function useWalletNetwork(): [
 ] {
   const signedWallet = useSignedWallet();
   const [networkVersion, setNetworkVersion] = useRecoilState(networkState);
+  const { logout } = useAuth();
+
   useEffect(() => {
     const callback = function (
       newNetworkVersion: KlaytnNetworkVersion | string
@@ -27,23 +31,28 @@ export function useWalletNetwork(): [
 
     switch (signedWallet) {
       case 'KLAY': {
+        window.caver = new Caver(klaytn);
         klaytn.on('networkChanged', callback);
+        setNetworkVersion(klaytn.networkVersion);
         return () => {
           klaytn.off('networkChanged', callback);
         };
       }
 
       case 'ETH': {
+        window.caver = new Caver(ethereumProviderProxy());
         ethereum.on('chainChanged', callback);
+        setNetworkVersion(Number.parseInt(ethereum.networkVersion));
         return () => {
           ethereum.removeListener('chainChanged', callback);
         };
       }
 
       default: {
+        logout();
         return null;
       }
     }
-  }, [networkVersion, setNetworkVersion, signedWallet]);
+  }, [networkVersion, setNetworkVersion, signedWallet, logout]);
   return [networkVersion, setNetworkVersion];
 }

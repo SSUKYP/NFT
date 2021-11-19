@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { selector, useRecoilValue } from 'recoil';
-import useAuth, { userState } from './authState';
+import { userState } from './authState';
 
 export type WalletChain = 'ETH' | 'KLAY' | null;
 
@@ -18,19 +17,4 @@ const signedWalletState = selector<WalletChain>({
 
 export function useSignedWallet() {
   return useRecoilValue(signedWalletState);
-}
-
-export function useChainEffect() {
-  const signedWallet = useSignedWallet();
-  const { logout } = useAuth();
-
-  useEffect(() => {
-    if (signedWallet === 'ETH') {
-      window.caver = new Caver(ethereum);
-    } else if (signedWallet === 'KLAY') {
-      window.caver = new Caver(klaytn);
-    } else {
-      logout();
-    }
-  }, [signedWallet, logout]);
 }
