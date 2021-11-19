@@ -5,13 +5,10 @@ import routes from './routes';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { useWalletNetwork } from './atoms/networkState';
-import { useChainEffect } from './atoms/signedWalletState';
 
 function App() {
   const { enqueueSnackbar } = useSnackbar();
   const [network] = useWalletNetwork();
-
-  useChainEffect();
 
   useEffect(
     function watchNetwork() {

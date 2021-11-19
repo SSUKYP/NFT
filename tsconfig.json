@@ -10,9 +10,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "lib": [
-      "es2016",
-      "dom"
-    ]
+    "downlevelIteration": true,
+    "lib": ["es2016", "dom"]
   }
 }
