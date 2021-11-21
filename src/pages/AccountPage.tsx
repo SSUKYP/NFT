@@ -14,6 +14,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorderTwoTone';
 import Divider from '@mui/material/Divider';
 import TabsGrid from './TabsGrid';
 import { useUserState } from '../atoms/authState';
+import { Link } from 'react-router-dom';
 
 const users = [
   {
@@ -117,6 +118,9 @@ export default function AccountPage() {
             <Typography component="p" color="#6f6558">
               Joined {users[2].createdDate}
             </Typography>
+            <Button component={Link} to="/accountEdit" variant="outlined">
+              개인정보 수정
+            </Button>
           </Grid>
           <Grid
             xs={12}

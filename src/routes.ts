@@ -1,5 +1,6 @@
 import { RouteComponentProps } from 'react-router';
 import AccountPage from './pages/AccountPage';
+import AccountEditPage from './pages/AccountEditPage';
 import AddProductPage from './pages/AddProductPage';
 import DetailPage from './pages/DetailPage';
 import HomePage from './pages/HomePage';
@@ -21,6 +22,11 @@ const routes: readonly Route[] = [
   {
     path: '/account',
     component: AccountPage,
+    private: true,
+  },
+  {
+    path: '/accountEdit',
+    component: AccountEditPage,
     private: true,
   },
   {

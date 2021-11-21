@@ -30,7 +30,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.4.0",
-    "dotenv-webpack": "^7.0.3",
+    "dotenv-webpack": "7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
@@ -52,11 +52,11 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "11.6.0",
+    "@emotion/styled": "11.6.0",
     "@fontsource/roboto": "^4.5.1",
     "@mui/icons-material": "^5.0.3",
-    "@mui/material": "^5.0.3",
+    "@mui/material": "5.1.1",
     "@mui/styles": "^5.0.1",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.0",
