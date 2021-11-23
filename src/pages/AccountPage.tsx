@@ -32,7 +32,7 @@ const users = [
     walletAddress: '0x937834',
     createdDate: 'September 2077',
     collectedItems: 2,
-    createdItems: 1,
+    createdItems: 0,
     lovedItems: 3,
   },
 ];

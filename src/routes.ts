@@ -1,5 +1,6 @@
 import { RouteComponentProps } from 'react-router';
 import AccountPage from './pages/AccountPage';
+import AddProductPage from './pages/AddProductPage';
 import DetailPage from './pages/DetailPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -33,6 +34,10 @@ const routes: readonly Route[] = [
   {
     path: '/details',
     component: DetailPage,
+  },
+  {
+    path: '/add',
+    component: AddProductPage,
   },
 ];
 export default routes;
