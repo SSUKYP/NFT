@@ -33,7 +33,9 @@ export function useWalletNetwork(): [
       case 'KLAY': {
         window.caver = new Caver(klaytn);
         klaytn.on('networkChanged', callback);
-        setNetworkVersion(klaytn.networkVersion);
+        if (klaytn.networkVersion) {
+          setNetworkVersion(klaytn.networkVersion);
+        }
         return () => {
           klaytn.off('networkChanged', callback);
         };
@@ -42,7 +44,7 @@ export function useWalletNetwork(): [
       case 'ETH': {
         window.caver = new Caver(ethereumProviderProxy());
         ethereum.on('chainChanged', callback);
-        setNetworkVersion(Number.parseInt(ethereum.networkVersion));
+        setNetworkVersion(Number.parseInt(ethereum.chainId));
         return () => {
           ethereum.removeListener('chainChanged', callback);
         };
