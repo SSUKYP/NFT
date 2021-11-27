@@ -12,11 +12,16 @@ function App() {
 
   useEffect(
     function watchNetwork() {
+      console.log(network);
       if (network !== null && network !== 1001) {
         enqueueSnackbar(
           '지갑의 네트워크를 클레이튼 테스트넷(Baobab)으로 변경해주세요.',
           { variant: 'error' }
         );
+      } else if (network === 1001) {
+        enqueueSnackbar('클레이튼 테스트넷(Baobab)에 연결되었습니다.', {
+          variant: 'info',
+        });
       }
     },
     [network, enqueueSnackbar]

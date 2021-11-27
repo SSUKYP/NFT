@@ -52,7 +52,7 @@ export default function useEthereumLogin() {
     try {
       await checkChain();
       await ethereum.request({ method: 'eth_requestAccounts' });
-      const walletAddress = ethereum.selectedAddress;
+      const walletAddress = ethereum.selectedAddress.toLowerCase();
       const signature = await signNonce(walletAddress);
       const res = await auth.login({
         walletAddress,
