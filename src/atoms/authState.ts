@@ -1,7 +1,26 @@
 import { b64utoutf8, KJUR } from 'jsrsasign';
 import { useCallback } from 'react';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import {
+  atom,
+  AtomEffect,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
+import client from '../lib/api/client';
 import sessionStorageEffect from '../lib/storage/sessionStorageEffect';
+
+const clientSessionEffect: AtomEffect<string> = ({
+  onSet,
+  getPromise,
+  node,
+}) => {
+  const saveSession = (token: string) => {
+    client.setAuthToken(token);
+  };
+  getPromise(node).then(saveSession);
+  onSet(saveSession);
+};
 
 type UserPayload = {
   sub: string;
@@ -13,7 +32,10 @@ type UserPayload = {
 const userTokenState = atom<string | null>({
   key: 'userTokenState',
   default: null,
-  effects_UNSTABLE: [sessionStorageEffect<string>('accessToken')],
+  effects_UNSTABLE: [
+    sessionStorageEffect<string>('accessToken'),
+    clientSessionEffect,
+  ],
 });
 
 export const userState = selector<UserPayload | null>({
