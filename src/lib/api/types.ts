@@ -4,3 +4,9 @@ export type ErrorResponse = {
 };
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export type Nft = {
+  name: string;
+  description: string;
+  image: string;
+};

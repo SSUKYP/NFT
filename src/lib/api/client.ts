@@ -3,6 +3,7 @@ import { ErrorResponse, Method } from './types';
 
 type ClientContext = {
   authToken: string;
+  defaultHeaders: Headers;
 };
 
 class Client {
@@ -11,6 +12,9 @@ class Client {
   constructor() {
     this.context = {
       authToken: undefined,
+      defaultHeaders: new Headers({
+        'Content-Type': 'application/json',
+      }),
     };
   }
 
@@ -19,21 +23,29 @@ class Client {
     this.context.authToken = token;
   }
 
-  fetch<
-    R extends Record<string, unknown> = Record<string, never>,
+  async fetch<
+    R extends Record<string, unknown> | Record<string, unknown>[] = Record<
+      string,
+      never
+    >,
     P = undefined
-  >(method: Method, path: `/${string}`, payload?: P): Promise<R>;
-
-  async fetch<R = Record<string, never>, P = undefined>(
+  >(
     method: Method,
-    path: string,
-    payload?: P
+    path: `/${string}`,
+    payload?: P,
+    headers?: HeadersInit
   ): Promise<R> {
-    const headers = new Headers({
-      'Content-Type': 'application/json',
-    });
+    if (!headers) {
+      headers = this.context.defaultHeaders;
+    }
     if (this.context?.authToken) {
-      headers.append('Authorization', `Bearer ${this.context.authToken}`);
+      if (headers instanceof Headers) {
+        headers.append('Authorization', `Bearer ${this.context.authToken}`);
+      } else if (Array.isArray(headers)) {
+        headers.push(['Authorization', `Bearer ${this.context.authToken}`]);
+      } else {
+        headers['Authorization'] = `Bearer ${this.context.authToken}`;
+      }
     }
     const res = await fetch(`${process.env.API_BASE_URL}${path}`, {
       method,
