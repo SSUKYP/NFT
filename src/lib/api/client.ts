@@ -35,6 +35,7 @@ class Client {
     payload?: P,
     headers?: HeadersInit
   ): Promise<R> {
+    let body: string | FormData = undefined;
     if (!headers) {
       headers = this.context.defaultHeaders;
     }
@@ -47,12 +48,17 @@ class Client {
         headers['Authorization'] = `Bearer ${this.context.authToken}`;
       }
     }
+    if (payload instanceof FormData) {
+      body = payload;
+    } else {
+      body = payload && JSON.stringify(payload);
+    }
     const res = await fetch(`${process.env.API_BASE_URL}${path}`, {
       method,
       mode: 'cors',
       cache: 'no-cache',
       headers,
-      body: payload && JSON.stringify(payload),
+      body,
     });
     if (res.status < 200 || res.status >= 300) {
       const errData = (await res.json()) as ErrorResponse;

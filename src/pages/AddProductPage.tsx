@@ -4,21 +4,28 @@ import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import UploadFileImage from '../assets/upload-file.jpg';
 import TextField from '@mui/material/TextField';
+import { createNft } from '../lib/api/nft';
+import { useHistory } from 'react-router-dom';
 
 const Input = styled('input')({
   display: 'none',
 });
 
 const AddProductPage = () => {
-  const [img, setImg] = React.useState(UploadFileImage);
+  const [img, setImg] = React.useState<File>(null);
   const [imgName, setImgName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const history = useHistory();
+  const imgUrl = useMemo(
+    () => (img ? URL.createObjectURL(img) : UploadFileImage),
+    [img]
+  );
 
   const handleUploadChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImg(URL.createObjectURL(event.currentTarget.files[0]));
+    setImg(event.currentTarget.files[0]);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +35,14 @@ const AddProductPage = () => {
       setImgName(event.currentTarget.value);
     }
   };
+
+  const handleCreate = useCallback(async () => {
+    const nft = await createNft(imgName, description, img);
+    history.push({
+      pathname: '/details',
+      state: nft,
+    });
+  }, [imgName, description, img, history]);
 
   return (
     <Box sx={{ flexGrow: 1, ml: 10 }}>
@@ -46,7 +61,12 @@ const AddProductPage = () => {
             onChange={handleUploadChange}
           />
           <Button variant="outlined" component="span">
-            <CardMedia component="img" height="400" image={img} alt="hello" />
+            <CardMedia
+              component="img"
+              height="400"
+              image={imgUrl}
+              alt="hello"
+            />
           </Button>
         </label>
       </Card>
@@ -73,7 +93,12 @@ const AddProductPage = () => {
           onChange={handleChange}
           value={description}
         />
-        <Button variant="contained" component="span" sx={{ width: 200 }}>
+        <Button
+          variant="contained"
+          component="span"
+          sx={{ width: 200 }}
+          onClick={handleCreate}
+        >
           등록
         </Button>
       </Box>

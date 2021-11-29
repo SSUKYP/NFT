@@ -16,102 +16,25 @@ import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
-import Starry_Night from '../assets/Starry_Night.jpg';
-import Mona_Lisa from '../assets/Mona_Lisa.jpg';
-import ImpSun from '../assets/Impression_Sunrise.jpg';
-import Dadaikseon from '../assets/dadaikseon.jpg';
-import Scream from '../assets/The_Scream.jpg';
-import PopTartCat from '../assets/poptartcat.gif';
-import Clock from '../assets/Clock.jpg';
-import Mongyou from '../assets/mongyou.jpg';
-
-const artists = [
-  {
-    id: 1,
-    artist: 'Vincent Van Gogh',
-    title: '별이 빛나는 밤',
-    img: Starry_Night,
-    price: 0.009,
-    like: 10,
-    isSold: true,
-    tag: 'jpg',
-  },
-  {
-    id: 2,
-    artist: 'Leonardo Da Vinci',
-    title: '모나리자',
-    img: Mona_Lisa,
-    price: 0.01,
-    like: 10,
-    isSold: true,
-    tag: 'jpg',
-  },
-  {
-    id: 3,
-    artist: 'Claude Monet',
-    title: '인상, 해돋이',
-    img: ImpSun,
-    price: 0.022,
-    like: 1,
-    isSold: false,
-    tag: 'jpg',
-  },
-  {
-    id: 4,
-    artist: '백남준',
-    title: '다다익선',
-    img: Dadaikseon,
-    price: 0.014,
-    like: 100,
-    isSold: true,
-    tag: 'jpg',
-  },
-  {
-    id: 5,
-    artist: 'Edvard Munch',
-    title: '절규',
-    img: Scream,
-    price: 0.05,
-    like: 100,
-    isSold: false,
-    tag: 'jpg',
-  },
-  {
-    id: 6,
-    artist: 'PRguitarman',
-    title: 'POP TART CAT',
-    img: PopTartCat,
-    price: 0.02,
-    like: 20,
-    isSold: true,
-    tag: 'gif',
-  },
-  {
-    id: 7,
-    artist: 'Salvador Dali',
-    title: '기억의 지속',
-    img: Clock,
-    price: 0.01,
-    like: 30,
-    isSold: true,
-    tag: 'jpg',
-  },
-  {
-    id: 8,
-    artist: '안견',
-    title: '몽유도원도',
-    img: Mongyou,
-    price: 0.093,
-    like: 90,
-    isSold: false,
-    tag: 'jpg',
-  },
-];
+import { useState, useEffect } from 'react';
+import { Nft } from '../lib/api/types';
+import { getNftList } from '../lib/api/nft';
+import ipfsToUrl from '../lib/ipfsToUrl';
 
 function MarketPage() {
   const [filterButtonShow, setFilterButtonShow] =
     React.useState<string>('none');
   const [buttonNames, setButtonNames] = React.useState<Array<string>>([]);
+  const [nfts, setNfts] = useState<Nft[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getNftList({
+        take: '8',
+      });
+      setNfts(res.map(el => ({ ...el, image: ipfsToUrl(el.image) })));
+    })();
+  }, []);
 
   const handleFilterButton = (
     event: React.SyntheticEvent,
@@ -195,14 +118,14 @@ function MarketPage() {
           ))}
         </ButtonGroup>
         <Grid container spacing={4}>
-          {artists
+          {nfts
             .filter(artist => {
               if (buttonNames.length == 0) return true;
               else
                 return (
-                  buttonNames.includes(artist.isSold ? '판매완료' : '판매중') ||
-                  buttonNames.includes(artist.artist) ||
-                  buttonNames.includes(artist.tag)
+                  buttonNames.includes(
+                    artist.price === 0 ? '판매완료' : '판매중'
+                  ) || buttonNames.includes(artist.creator.nickname)
                 );
             })
             .map(artist => (
@@ -214,7 +137,11 @@ function MarketPage() {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardMedia component="img" height="280" image={artist.img} />
+                  <CardMedia
+                    component="img"
+                    height="280"
+                    image={artist.image}
+                  />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Grid container spacing={0} rowSpacing={0}>
                       <Grid item xs={8}>
@@ -224,7 +151,7 @@ function MarketPage() {
                           display="block"
                           color="text.secondary"
                         >
-                          {artist.artist}
+                          {artist.creator.nickname}
                         </Typography>
                       </Grid>
                       <Grid item xs={4}>
@@ -243,7 +170,7 @@ function MarketPage() {
                           component="h2"
                           display="block"
                         >
-                          {artist.title}
+                          {artist.name}
                         </Typography>
                       </Grid>
                       <Grid item xs={4}>
@@ -252,7 +179,7 @@ function MarketPage() {
                           variant="body2"
                           display="block"
                         >
-                          {artist.price} GAS
+                          {artist.price} KLAY
                         </Typography>
                       </Grid>
                     </Grid>
@@ -276,11 +203,11 @@ function MarketPage() {
                       component={Link}
                       to={{
                         pathname: '/details',
-                        state: { Nft: artist },
+                        state: artist,
                       }}
                     >
                       <Typography variant="body2">
-                        {!artist.isSold ? '구매하기' : '보러가기'}
+                        {artist.price !== 0 ? '구매하기' : '보러가기'}
                       </Typography>
                     </Button>
                     <Box sx={{ flexGrow: 8 }}></Box>
@@ -290,7 +217,9 @@ function MarketPage() {
                       sx={{ flexGrow: 1 }}
                       color="secondary"
                     >
-                      {artist.like >= 100 ? '99+' : artist.like}
+                      {artist._count.likedUsers >= 100
+                        ? '99+'
+                        : artist._count.likedUsers}
                     </Button>
                   </CardActions>
                 </Card>
