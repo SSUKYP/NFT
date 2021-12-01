@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,6 +13,16 @@ import MarketPage from './MarketPage';
 import { Link } from 'react-router-dom';
 import { Nft } from '../lib/api/types';
 import ipfsToUrl from '../lib/ipfsToUrl';
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
+  Switch,
+  FormControlLabel,
+} from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 interface TabGridMode {
   tabs: string;
@@ -34,6 +44,27 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = ({
       ? createdNfts
       : likedNfts;
   const isEmpty = items.length === 0;
+  const [open, setOpen] = useState(false);
+  const [sell, setSell] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSellChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSell(event.target.checked);
+  };
+
+  const handleDialogOpenClick = () => {
+    setOpen(true);
+  };
+
+  const handleSellClick = () => {
+    const alert = sell ? '판매중으로 바꿉니다.' : '판매중단으로 바꿉니다.';
+    enqueueSnackbar(alert, { variant: 'info' });
+    setOpen(false);
+  };
 
   return (
     <Grid
@@ -52,104 +83,155 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = ({
     >
       {!isEmpty ? (
         items.map((item, key) => (
-          <Grid item key={key} xs={12} sm={6} md={3} sx={{ m: 3 }}>
-            <Card
-              sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                mr: 2,
-                background: '#FCD8D4',
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="280"
-                image={ipfsToUrl(item.image)}
-              />
-              <CardActionArea LinkComponent={MarketPage}>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Grid container spacing={0} rowSpacing={0}>
-                    <Grid item xs={8}>
-                      <Typography
-                        gutterBottom
-                        variant="overline"
-                        display="block"
-                        color="text.secondary"
-                      >
-                        {item.creator.nickname}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography
-                        gutterBottom
-                        variant="overline"
-                        display="block"
-                      >
-                        가격
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography
-                        gutterBottom
-                        variant="overline"
-                        component="h2"
-                        display="block"
-                      >
-                        {item.name}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Typography
-                        gutterBottom
-                        variant="overline"
-                        display="block"
-                      >
-                        {item.price}GAS
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-              <CardActions
+          <React.Fragment key={key}>
+            <Grid item xs={12} sm={6} md={3} sx={{ m: 3 }}>
+              <Card
                 sx={{
-                  height: '42',
-                  width: '100%',
+                  height: '100%',
                   display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row',
+                  flexDirection: 'column',
+                  mr: 2,
+                  background: '#FCD8D4',
                 }}
               >
-                <Button
-                  size="small"
-                  variant="contained"
+                <CardMedia
+                  component="img"
+                  height="280"
+                  image={ipfsToUrl(item.image)}
+                />
+                <CardActionArea LinkComponent={MarketPage}>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={0} rowSpacing={0}>
+                      <Grid item xs={8}>
+                        <Typography
+                          gutterBottom
+                          variant="overline"
+                          display="block"
+                          color="text.secondary"
+                        >
+                          {item.creator.nickname}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          gutterBottom
+                          variant="overline"
+                          display="block"
+                        >
+                          가격
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={8}>
+                        <Typography
+                          gutterBottom
+                          variant="overline"
+                          component="h2"
+                          display="block"
+                        >
+                          {item.name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Typography
+                          gutterBottom
+                          variant="overline"
+                          display="block"
+                        >
+                          {item.price}KLAY
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions
                   sx={{
-                    flexGrow: 1,
-                    display: item.price === 0 ? 'none' : 'block',
-                    textAlign: 'center',
-                  }}
-                  component={Link}
-                  to={{
-                    pathname: `/details/${item.id}`,
-                    state: item,
+                    height: '42',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'row',
                   }}
                 >
-                  구매하기
-                </Button>
-                <Box sx={{ flexGrow: 8 }}></Box>
-                <Button
-                  size="small"
-                  startIcon={<FavoriteBorderIcon />}
-                  sx={{ flexGrow: 1 }}
-                  color="secondary"
-                >
-                  {item._count.likedUsers >= 100
-                    ? '99+'
-                    : item._count.likedUsers}
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    sx={{
+                      flexGrow: 1,
+                      textAlign: 'center',
+                    }}
+                    component={Link}
+                    to={{
+                      pathname: `/details/${item.name}`,
+                      state: { Nft: item },
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {item.price !== 0 ? '구매하기' : '보러가기'}
+                    </Typography>
+                  </Button>
+                  {tabs === 'collected' ? (
+                    <>
+                      <Box sx={{ flexGrow: 8 }}></Box>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        sx={{ flexGrow: 1, textAlign: 'center' }}
+                        onClick={handleDialogOpenClick}
+                      >
+                        <Typography variant="body2">{`판매여부`}</Typography>
+                      </Button>
+                    </>
+                  ) : (
+                    <> </>
+                  )}
+                  <Box sx={{ flexGrow: 8 }}></Box>
+                  <Button
+                    size="small"
+                    startIcon={<FavoriteBorderIcon />}
+                    sx={{ flexGrow: 1 }}
+                    color="secondary"
+                  >
+                    {item._count.likedUsers >= 100
+                      ? '99+'
+                      : item._count.likedUsers}
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>{`미술품의 상태 변경`}</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  {`판매 혹은 판매하지 않음으로 선택할 수 있습니다.`}
+                </DialogContentText>
+                <FormControlLabel
+                  sx={{ mt: 2 }}
+                  control={
+                    <Switch checked={sell} onChange={handleSellChange} />
+                  }
+                  label={
+                    sell ? (
+                      <Typography variant="body2">판매중</Typography>
+                    ) : (
+                      <Typography variant="body2">판매중단</Typography>
+                    )
+                  }
+                />
+                <DialogActions>
+                  <Button
+                    sx={{
+                      flexDirection: 'column-reverse',
+                      width: '50%',
+                    }}
+                    variant="outlined"
+                    onClick={handleSellClick}
+                  >
+                    확인
+                  </Button>
+                </DialogActions>
+              </DialogContent>
+            </Dialog>
+          </React.Fragment>
         ))
       ) : (
         <Grid

@@ -196,7 +196,9 @@ const HomePage = () => {
                           state: artist,
                         }}
                       >
-                        구매하기
+                        <Typography variant="body2">
+                          {artist.price !== 0 ? '구매하기' : '보러가기'}
+                        </Typography>
                       </Button>
                       <Box sx={{ flexGrow: 8 }}></Box>
                       <Button
