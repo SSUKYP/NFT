@@ -55,6 +55,12 @@ export function useWalletNetwork(): [
       }
 
       default: {
+        if (hasKaikas()) {
+          window.caver = new Caver(klaytn);
+        } else if (hasMetamask()) {
+          window.caver = new Caver(ethereumProviderProxy());
+        }
+
         logout();
         return null;
       }
