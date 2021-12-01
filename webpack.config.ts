@@ -76,6 +76,7 @@ const config: Configuration = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
+    allowedHosts: ['klaysea.alien.moe'],
     client: {
       overlay: true,
     },

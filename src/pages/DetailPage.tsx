@@ -18,6 +18,8 @@ import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import PaymentTwoToneIcon from '@mui/icons-material/PaymentTwoTone';
 import MoneyTwoToneIcon from '@mui/icons-material/MoneyTwoTone';
 import { RouteComponentProps } from 'react-router-dom';
+import { Nft } from '../lib/api/types';
+import ipfsToUrl from '../lib/ipfsToUrl';
 
 const transactions = [
   {
@@ -29,18 +31,6 @@ const transactions = [
   },
 ];
 
-type Nft = {
-  Nft: {
-    id: number;
-    artist: string;
-    title: string;
-    price: number;
-    img: string;
-    like: number;
-    isSold: boolean;
-  };
-};
-
 const KlayInKRW = 1968;
 
 const DetailPage = ({ location }: RouteComponentProps) => {
@@ -48,7 +38,7 @@ const DetailPage = ({ location }: RouteComponentProps) => {
 
   const data = [
     {
-      id: nft.Nft.title,
+      id: nft.name,
       color: 'hsl(268, 70%, 50%)',
       data: [
         {
@@ -85,11 +75,11 @@ const DetailPage = ({ location }: RouteComponentProps) => {
         },
         {
           x: '2021-10-18',
-          y: nft.Nft.price * KlayInKRW,
+          y: nft.price * KlayInKRW,
         },
         {
           x: '2021-10-19',
-          y: nft.Nft.price * KlayInKRW,
+          y: nft.price * KlayInKRW,
         },
       ],
     },
@@ -114,10 +104,14 @@ const DetailPage = ({ location }: RouteComponentProps) => {
               sx={{ flexGrow: 1 }}
               color="secondary"
             >
-              {+nft.Nft.like >= 100 ? '99+' : +nft.Nft.like}
+              {+nft._count.likedUsers >= 100 ? '99+' : +nft._count.likedUsers}
             </Button>
           </CardActions>
-          <CardMedia component="img" height="280" image={nft.Nft.img} />
+          <CardMedia
+            component="img"
+            height="280"
+            image={ipfsToUrl(nft.image)}
+          />
         </Card>
         <Paper sx={{ mt: 3 }}>
           <Table>
@@ -140,17 +134,19 @@ const DetailPage = ({ location }: RouteComponentProps) => {
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <Typography>작가 : {nft.Nft.artist}</Typography>
+                  <Typography>
+                    작가 : {nft.creator.nickname ?? 'Unnamed'}
+                  </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <Typography>제목 : {nft.Nft.title}</Typography>
+                  <Typography>제목 : {nft.name}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <Typography>가격 : {nft.Nft.price}</Typography>
+                  <Typography>가격 : {nft.price}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>

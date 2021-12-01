@@ -12,7 +12,6 @@ function App() {
 
   useEffect(
     function watchNetwork() {
-      console.log(network);
       if (network !== null && network !== 1001) {
         enqueueSnackbar(
           '지갑의 네트워크를 클레이튼 테스트넷(Baobab)으로 변경해주세요.',

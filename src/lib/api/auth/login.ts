@@ -10,7 +10,7 @@ type LoginPayload = {
 };
 
 export default async function login(payload: LoginPayload) {
-  const res = await client<LoginResponce, LoginPayload>(
+  const res = await client.fetch<LoginResponce, LoginPayload>(
     'POST',
     '/auth/login',
     payload

@@ -2,18 +2,20 @@ import { AtomEffect, DefaultValue } from 'recoil';
 
 const sessionStorageEffect =
   <T>(key: string): AtomEffect<T> =>
-  ({ setSelf, onSet }) => {
-    const data = sessionStorage.getItem(key);
-    try {
-      if (!data) {
+  ({ setSelf, onSet, trigger }) => {
+    if (trigger === 'get') {
+      const data = sessionStorage.getItem(key);
+      try {
+        if (!data) {
+          setSelf(new DefaultValue());
+        } else {
+          const parsed = JSON.parse(data) as T;
+          setSelf(parsed);
+        }
+      } catch (e) {
+        sessionStorage.removeItem(key);
         setSelf(new DefaultValue());
-      } else {
-        const parsed = JSON.parse(data) as T;
-        setSelf(parsed);
       }
-    } catch (e) {
-      sessionStorage.removeItem(key);
-      setSelf(new DefaultValue());
     }
 
     onSet(newValue => {

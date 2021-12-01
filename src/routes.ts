@@ -38,6 +38,7 @@ const routes: readonly Route[] = [
   {
     path: '/add',
     component: AddProductPage,
+    private: true,
   },
 ];
 export default routes;

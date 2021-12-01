@@ -8,7 +8,7 @@ type ChallengeNoncePayload = {
 };
 
 export default async function challengeNonce(walletAddress: string) {
-  const res = await client<ChallengeNonceResponce, ChallengeNoncePayload>(
+  const res = await client.fetch<ChallengeNonceResponce, ChallengeNoncePayload>(
     'POST',
     '/auth/challengeNonce',
     {

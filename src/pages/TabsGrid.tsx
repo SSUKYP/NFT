@@ -11,11 +11,8 @@ import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import MarketPage from './MarketPage';
 import { Link } from 'react-router-dom';
-import StarryNight from '../assets/Starry_Night.jpg';
-import MonaLisa from '../assets/Mona_Lisa.jpg';
-import PopTartCat from '../assets/poptartcat.gif';
-import Clock from '../assets/Clock.jpg';
-import Mongyou from '../assets/mongyou.jpg';
+import { Nft } from '../lib/api/types';
+import ipfsToUrl from '../lib/ipfsToUrl';
 import {
   Dialog,
   DialogContent,
@@ -27,79 +24,25 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 
-const collectedItems = [
-  {
-    id: 1,
-    artist: 'Vincent Van Gogh',
-    title: '별이 빛나는 밤',
-    img: StarryNight,
-    price: 0.009,
-    like: 10,
-    isSold: true,
-  },
-  {
-    id: 2,
-    artist: 'Leonardo Da Vinci',
-    title: '모나리자',
-    img: MonaLisa,
-    price: 0.01,
-    like: 10,
-    isSold: true,
-  },
-];
-
-const createdItems: {
-  id: number;
-  artist: string;
-  title: string;
-  img: string;
-  price: number;
-  like: number;
-  isSold: boolean;
-}[] = [];
-
-const lovedItems = [
-  {
-    id: 0,
-    artist: 'PRguitarman',
-    title: 'POP TART CAT',
-    img: PopTartCat,
-    price: 0.02,
-    like: 20,
-    isSold: true,
-  },
-  {
-    id: 1,
-    artist: 'Salvador Dali',
-    title: '기억의 지속',
-    img: Clock,
-    price: 0.01,
-    like: 30,
-    isSold: true,
-  },
-  {
-    id: 2,
-    artist: '안견',
-    title: '몽유도원도',
-    img: Mongyou,
-    price: 0.093,
-    like: 90,
-    isSold: false,
-  },
-];
-
 interface TabGridMode {
   tabs: string;
+  ownedNfts: Nft[];
+  createdNfts: Nft[];
+  likedNfts: Nft[];
 }
 
-const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
-  const tabs = props.tabs;
+const TabsGrid: React.FunctionComponent<TabGridMode> = ({
+  tabs,
+  ownedNfts,
+  likedNfts,
+  createdNfts,
+}) => {
   const items =
     tabs === 'collected'
-      ? collectedItems
+      ? ownedNfts
       : tabs === 'created'
-      ? createdItems
-      : lovedItems;
+      ? createdNfts
+      : likedNfts;
   const isEmpty = items.length === 0;
   const [open, setOpen] = useState(false);
   const [sell, setSell] = useState(false);
@@ -151,7 +94,11 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                   background: '#FCD8D4',
                 }}
               >
-                <CardMedia component="img" height="280" image={item.img} />
+                <CardMedia
+                  component="img"
+                  height="280"
+                  image={ipfsToUrl(item.image)}
+                />
                 <CardActionArea LinkComponent={MarketPage}>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Grid container spacing={0} rowSpacing={0}>
@@ -162,7 +109,7 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                           display="block"
                           color="text.secondary"
                         >
-                          {item.artist}
+                          {item.creator.nickname}
                         </Typography>
                       </Grid>
                       <Grid item xs={4}>
@@ -181,7 +128,7 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                           component="h2"
                           display="block"
                         >
-                          {item.title}
+                          {item.name}
                         </Typography>
                       </Grid>
                       <Grid item xs={4}>
@@ -190,7 +137,7 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                           variant="overline"
                           display="block"
                         >
-                          {item.price}GAS
+                          {item.price}KLAY
                         </Typography>
                       </Grid>
                     </Grid>
@@ -214,12 +161,12 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                     }}
                     component={Link}
                     to={{
-                      pathname: `/details/${item.title}`,
+                      pathname: `/details/${item.name}`,
                       state: { Nft: item },
                     }}
                   >
                     <Typography variant="body2">
-                      {!item.isSold ? '구매하기' : '보러가기'}
+                      {item.price !== 0 ? '구매하기' : '보러가기'}
                     </Typography>
                   </Button>
                   {tabs === 'collected' ? (
@@ -244,7 +191,9 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = props => {
                     sx={{ flexGrow: 1 }}
                     color="secondary"
                   >
-                    {item.like >= 100 ? '99+' : item.like}
+                    {item._count.likedUsers >= 100
+                      ? '99+'
+                      : item._count.likedUsers}
                   </Button>
                 </CardActions>
               </Card>
