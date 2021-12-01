@@ -2,7 +2,7 @@ import client from '../client';
 import { Nft } from '../types';
 
 export function getNft(tokenId: string) {
-  return client.fetch<Nft>('GET', `/users/${encodeURIComponent(tokenId)}`);
+  return client.fetch<Nft>('GET', `/nfts/${encodeURIComponent(tokenId)}`);
 }
 
 type GetNftListParams = {
@@ -28,5 +28,5 @@ export function createNft(name: string, description: string, image: File) {
 }
 
 export function toggleNftLike(tokenId: number) {
-  return client.fetch<Nft>('PUT', `/nfts/${tokenId}/toggleLike`);
+  return client.fetch<Nft>('PUT', `/nfts/${tokenId}/toggleLike`, undefined, {});
 }
