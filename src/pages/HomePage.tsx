@@ -8,14 +8,18 @@ import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Nft } from '../lib/api/types';
 import SlickSlider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { getNftList } from '../lib/api/nft';
+import { getNftList, toggleNftLike } from '../lib/api/nft';
 import ipfsToUrl from '../lib/ipfsToUrl';
+import { useUserState } from '../atoms/authState';
+import { getUser } from '../lib/api/user';
+import { useSnackbar } from 'notistack';
 
 const Slider = styled(SlickSlider)`
   .slick-slide {
@@ -49,7 +53,7 @@ const Slider = styled(SlickSlider)`
   }
 `;
 
-const HomePage = () => {
+const HomePage: React.FunctionComponent = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -58,7 +62,12 @@ const HomePage = () => {
     swipeToSlide: true,
     arrows: true,
   };
+
   const [nfts, setNfts] = useState<Nft[]>([]);
+  const userState = useUserState();
+  const [userId, setUserId] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
+  const [toggle, setToggle] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -67,9 +76,42 @@ const HomePage = () => {
         skip: '0',
         sortBy: 'likes',
       });
-      setNfts(res.map(el => ({ ...el, image: ipfsToUrl(el.image) })));
+
+      setNfts([
+        ...res.map((el: Nft) => ({ ...el, image: ipfsToUrl(el.image) })),
+      ]);
     })();
-  }, []);
+
+    (async () => {
+      if (userState) {
+        const user = await getUser(userState.walletAddress);
+        setUserId(user.id);
+      }
+    })();
+  }, [toggle, userState]);
+
+  const handleToggleClick = async (
+    event: React.SyntheticEvent,
+    value: number
+  ) => {
+    event.preventDefault();
+
+    if (!userState) {
+      enqueueSnackbar('로그인 먼저 해주세요.', { variant: 'error' });
+      return;
+    }
+
+    toggleNftLike(value);
+    const res = await getNftList({
+      take: '5',
+      skip: '0',
+      sortBy: 'likes',
+    });
+
+    setNfts([...res.map((el: Nft) => ({ ...el, image: ipfsToUrl(el.image) }))]);
+
+    setToggle(value => value + 1);
+  };
 
   return (
     <Box sx={{ display: 'flex' }} fontFamily="CookieRun">
@@ -113,10 +155,7 @@ const HomePage = () => {
           <Grid
             item
             xs={12}
-            sx={{
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            sx={{ alignItems: 'center', justifyContent: 'center' }}
           >
             <Slider {...settings}>
               {nfts.map(artist => (
@@ -203,9 +242,19 @@ const HomePage = () => {
                       <Box sx={{ flexGrow: 8 }}></Box>
                       <Button
                         size="small"
-                        startIcon={<FavoriteBorderIcon />}
+                        startIcon={
+                          userState && artist.likedUserIDs.includes(userId) ? (
+                            <FavoriteIcon />
+                          ) : (
+                            <FavoriteBorderIcon />
+                          )
+                        }
                         sx={{ flexGrow: 1 }}
                         color="secondary"
+                        onClick={event =>
+                          handleToggleClick(event, +event.currentTarget.value)
+                        }
+                        value={artist.tokenId}
                       >
                         {artist._count.likedUsers >= 100
                           ? '99+'
