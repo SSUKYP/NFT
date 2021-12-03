@@ -20,70 +20,62 @@ import MoneyTwoToneIcon from '@mui/icons-material/MoneyTwoTone';
 import { RouteComponentProps } from 'react-router-dom';
 import { Nft } from '../lib/api/types';
 import ipfsToUrl from '../lib/ipfsToUrl';
+import { useEffect, useState } from 'react';
+import { LogObject } from 'caver-js';
+import { Serie } from '@nivo/line';
 
-const transactions = [
-  {
-    id: 1,
-    from: '0x9273781adf2938233410',
-    to: '0x837276abcd28e837f12',
-    price: 0.29,
-    date: '2021-10-21',
-  },
-];
+interface Transactions {
+  from: string;
+  to: string;
+  price: string | number;
+  date: LogObject[];
+}
 
-const KlayInKRW = 1968;
+interface NivoTxData {
+  x: string;
+  y: number | string;
+}
 
 const DetailPage = ({ location }: RouteComponentProps) => {
   const nft = location.state as Nft;
+  const [transactions, setTransactions] = useState<Transactions[]>([]);
+  const [data, setData] = useState<Serie[]>([]);
 
-  const data = [
-    {
-      id: nft.name,
-      color: 'hsl(268, 70%, 50%)',
-      data: [
-        {
-          x: '2021-10-10',
-          y: 0.011 * KlayInKRW,
-        },
-        {
-          x: '2021-10-11',
-          y: 0.021 * KlayInKRW,
-        },
-        {
-          x: '2021-10-12',
-          y: 0.033 * KlayInKRW,
-        },
-        {
-          x: '2021-10-13',
-          y: 0.01 * KlayInKRW,
-        },
-        {
-          x: '2021-10-14',
-          y: 0.032 * KlayInKRW,
-        },
-        {
-          x: '2021-10-15',
-          y: 0.02 * KlayInKRW,
-        },
-        {
-          x: '2021-10-16',
-          y: 0.021 * KlayInKRW,
-        },
-        {
-          x: '2021-10-17',
-          y: 0.021 * KlayInKRW,
-        },
-        {
-          x: '2021-10-18',
-          y: nft.price * KlayInKRW,
-        },
-        {
-          x: '2021-10-19',
-          y: nft.price * KlayInKRW,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const tx: Transactions[] = [];
+    const txData: NivoTxData[] = [];
+
+    window.caver.rpc.klay.getBlockByNumber(nft.tokenId).then(block => {
+      console.log(block);
+      block.transactions.map(transaction => {
+        txData.push({
+          x: '2021-12-01',
+          y: transaction.gasPrice,
+        });
+        window.caver.rpc.klay
+          .getTransactionReceipt(transaction.hash)
+          .then(receipt => {
+            tx.push({
+              from: receipt.from,
+              to: receipt.to,
+              price: receipt.gasPrice,
+              date: receipt.logs,
+            });
+          });
+      });
+    });
+
+    const NivoData = [
+      {
+        id: nft.name,
+        color: 'hsl(268, 70%, 50%)',
+        data: txData,
+      },
+    ];
+
+    setTransactions([...tx]);
+    setData([...NivoData]);
+  }, [nft]);
 
   return (
     <Grid
@@ -142,6 +134,11 @@ const DetailPage = ({ location }: RouteComponentProps) => {
               <TableRow>
                 <TableCell>
                   <Typography>제목 : {nft.name}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography>설명 : {nft.description}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -238,7 +235,7 @@ const DetailPage = ({ location }: RouteComponentProps) => {
             </TableHead>
             <TableBody>
               {transactions.map(transaction => (
-                <TableRow key={transaction.id}>
+                <TableRow key={transaction.from}>
                   <TableCell>
                     <Typography variant="body2">등록</Typography>
                   </TableCell>
