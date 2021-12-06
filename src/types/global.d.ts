@@ -1,5 +1,6 @@
 type Caver = import('caver-js').default;
 type IpcProvider = import('caver-js').IpcProvider;
+type Contract = import('caver-js').Contract;
 
 declare enum KlaytnNetworkVersion {
   BAOBAB = 1001,
@@ -21,6 +22,7 @@ interface KlaytnProvider extends IpcProvider {
 interface Window {
   klaytn: KlaytnProvider;
   caver: Caver;
+  ksea: Contract;
   ethereum: any;
 }
 
@@ -28,4 +30,5 @@ declare const Caver: new (provider?: KlaytnProvider) => Caver;
 
 declare const klaytn: KlaytnProvider;
 declare const caver: Caver;
+declare const ksea: Contract;
 declare const ethereum: any;
