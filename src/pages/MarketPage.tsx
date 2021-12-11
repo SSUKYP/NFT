@@ -18,7 +18,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Nft } from '../lib/api/types';
-import { getNftList, toggleNftLike } from '../lib/api/nft';
+import { getAllNfts, getNftList, toggleNftLike } from '../lib/api/nft';
 import ipfsToUrl from '../lib/ipfsToUrl';
 import { useSnackbar } from 'notistack';
 import { useUserState } from '../atoms/authState';
@@ -37,9 +37,7 @@ function MarketPage() {
 
   useEffect(() => {
     (async () => {
-      const res = await getNftList({
-        take: '10',
-      });
+      const res = await getAllNfts();
       setNfts(res.map(el => ({ ...el, image: ipfsToUrl(el.image) })));
     })();
     (async () => {

@@ -18,6 +18,7 @@ const AddProductPage = () => {
   const [img, setImg] = React.useState<File>(null);
   const [imgName, setImgName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [price, setPrice] = React.useState('');
   const history = useHistory();
   const imgUrl = useMemo(
     () => (img ? URL.createObjectURL(img) : UploadFileImage),
@@ -31,18 +32,21 @@ const AddProductPage = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.currentTarget.id === 'description') {
       setDescription(event.currentTarget.value);
-    } else {
+    } else if (event.currentTarget.id === 'name') {
       setImgName(event.currentTarget.value);
+    } else {
+      setPrice(event.currentTarget.value);
     }
   };
 
   const handleCreate = useCallback(async () => {
-    const nft = await createNft(imgName, description, img);
+    console.log(imgName, description, img, price);
+    const nft = await createNft(imgName, description, img, price);
     history.push({
       pathname: '/details',
       state: nft,
     });
-  }, [imgName, description, img, history]);
+  }, [imgName, description, img, price, history]);
 
   return (
     <Box sx={{ flexGrow: 1, ml: 10 }}>
@@ -92,6 +96,17 @@ const AddProductPage = () => {
           sx={{ width: 400, mb: 3 }}
           onChange={handleChange}
           value={description}
+        />
+        <Typography variant="h6" sx={{ mt: 3, mb: 3 }}>
+          가격 설정(KLAY)
+        </Typography>
+        <TextField
+          placeholder="가격을 설정해주세요."
+          required
+          id="price"
+          sx={{ width: 400, mb: 3 }}
+          onChange={handleChange}
+          value={price}
         />
         <Button
           variant="contained"

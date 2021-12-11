@@ -60,10 +60,25 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = ({
     setOpen(true);
   };
 
-  const handleSellClick = () => {
+  const handleSellClick = async (
+    event: React.SyntheticEvent,
+    item: number | string
+  ) => {
+    event.preventDefault();
     const alert = sell ? '판매중으로 바꿉니다.' : '판매중단으로 바꿉니다.';
     enqueueSnackbar(alert, { variant: 'info' });
     setOpen(false);
+
+    const nftBlock = await window.caver.rpc.klay.getBlockByNumber(item);
+    const transaction = nftBlock.transactions[0];
+    const tx = window.caver.transaction.valueTransfer.create({
+      from: transaction.from,
+      to: transaction.to,
+      value: window.caver.utils.convertToPeb(0, 'KLAY'),
+      gas: 200000,
+    });
+
+    window.caver.klay.sendTransaction(tx).then(console.log);
   };
 
   return (
@@ -224,7 +239,7 @@ const TabsGrid: React.FunctionComponent<TabGridMode> = ({
                       width: '50%',
                     }}
                     variant="outlined"
-                    onClick={handleSellClick}
+                    onClick={event => handleSellClick(event, item.id)}
                   >
                     확인
                   </Button>

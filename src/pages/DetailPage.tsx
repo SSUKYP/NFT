@@ -17,12 +17,15 @@ import AttachMoneyTwoToneIcon from '@mui/icons-material/AttachMoneyTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import PaymentTwoToneIcon from '@mui/icons-material/PaymentTwoTone';
 import MoneyTwoToneIcon from '@mui/icons-material/MoneyTwoTone';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { Nft } from '../lib/api/types';
 import ipfsToUrl from '../lib/ipfsToUrl';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LogObject } from 'caver-js';
 import { Serie } from '@nivo/line';
+import { useUserState } from '../atoms/authState';
+import makeContract from '../lib/makeKsea';
+import { useSnackbar } from 'notistack';
 
 interface Transactions {
   from: string;
@@ -40,6 +43,10 @@ const DetailPage = ({ location }: RouteComponentProps) => {
   const nft = location.state as Nft;
   const [transactions, setTransactions] = useState<Transactions[]>([]);
   const [data, setData] = useState<Serie[]>([]);
+  const user = useUserState();
+  const contract = makeContract();
+  const { enqueueSnackbar } = useSnackbar();
+  const history = useHistory();
 
   useEffect(() => {
     const tx: Transactions[] = [];
@@ -76,6 +83,28 @@ const DetailPage = ({ location }: RouteComponentProps) => {
     setTransactions([...tx]);
     setData([...NivoData]);
   }, [nft]);
+
+  const handleSellClick = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    if (nft.price === 0) {
+      enqueueSnackbar('판매하지 않는 미술품입니다.', { variant: 'error' });
+      return;
+    }
+
+    const tx = window.caver.transaction.valueTransfer.create({
+      from: user.walletAddress,
+      to: contract.options.address,
+      value: caver.utils.toPeb(nft.price, 'KLAY'),
+      gas: 200000,
+    });
+
+    window.caver.rpc.klay.sendTransaction(tx).then(console.log);
+
+    enqueueSnackbar('구매하였습니다.', { variant: 'success' });
+
+    history.push('/account');
+  };
 
   return (
     <Grid
@@ -143,7 +172,9 @@ const DetailPage = ({ location }: RouteComponentProps) => {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <Typography>가격 : {nft.price}</Typography>
+                  <Typography>
+                    가격 : {nft.price === 0 ? '판매되지 않습니다.' : nft.price}
+                  </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -158,6 +189,7 @@ const DetailPage = ({ location }: RouteComponentProps) => {
                     startIcon={<PaymentTwoToneIcon />}
                     size="large"
                     variant="outlined"
+                    onClick={handleSellClick}
                   >
                     구매하기
                   </Button>
