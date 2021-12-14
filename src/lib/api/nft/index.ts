@@ -19,11 +19,22 @@ export function getNftList(params: GetNftListParams) {
   return client.fetch<Nft[]>('GET', `/nfts?${queryParams}`);
 }
 
-export function createNft(name: string, description: string, image: File) {
+export function getAllNfts() {
+  return client.fetch<Nft[]>('GET', `/nfts`);
+}
+
+export function createNft(
+  name: string,
+  description: string,
+  image: File,
+  price: string
+) {
   const data = new FormData();
   data.append('image', image);
   data.append('name', name);
   data.append('description', description);
+  data.append('price', price);
+
   return client.fetch<Nft, FormData>('POST', '/nfts', data, {});
 }
 
