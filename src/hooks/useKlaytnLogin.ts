@@ -20,7 +20,9 @@ export default function useKlaytnLogin() {
   const history = useHistory();
   const login = useCallback(async (): Promise<boolean> => {
     try {
+      console.log('test1');
       const walletAddress = await enableKlaytn();
+      console.log('test2');
       if (!walletAddress) {
         return false;
       }

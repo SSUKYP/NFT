@@ -7,11 +7,15 @@ import {
   styled,
   Toolbar,
   Typography,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import BubbleChartRoundedIcon from '@mui/icons-material/BubbleChartRounded';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import useAuth, { useUserState } from '../atoms/authState';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,8 +58,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  const user = useUserState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { logout } = useAuth();
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = useCallback(() => {
+    handleClose();
+    logout();
+  }, [logout]);
+
   return (
-    <AppBar position="relative">
+    <AppBar position="relative" sx={{ zIndex: 10 }}>
       <Toolbar>
         <BubbleChartRoundedIcon sx={{ mr: 2 }} />
         <Typography
@@ -84,17 +103,45 @@ export default function AppHeader() {
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <IconButton
-            component={Link}
-            to="/account"
             size="large"
             edge="end"
             aria-label="account of current user"
             //aria-controls={menuId}
-            aria-haspopup="true"
             color="inherit"
+            onClick={handleClick}
+            id="profile-button"
+            aria-controls="profile-menu"
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
           >
             <AccountCircle />
           </IconButton>
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'profile-button',
+            }}
+          >
+            {user ? (
+              <>
+                <MenuItem onClick={handleClose} component={Link} to="/account">
+                  프로필
+                </MenuItem>
+                <MenuItem onClick={handleClose} component={Link} to="/add">
+                  미술품 등록
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+              </>
+            ) : (
+              <MenuItem onClick={handleClose} component={Link} to="/login">
+                로그인
+              </MenuItem>
+            )}
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>

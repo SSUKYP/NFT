@@ -40,8 +40,21 @@ const AddProductPage = () => {
   };
 
   const handleCreate = useCallback(async () => {
-    console.log(imgName, description, img, price);
-    const nft = await createNft(imgName, description, img, price);
+    const nft = await createNft(imgName, description, img);
+    try {
+      const priceNum = Number.parseFloat(price);
+      if (priceNum > 0) {
+        await window.ksea.methods
+          .allowBuy(nft.tokenId, caver.utils.convertToPeb(priceNum, 'KLAY'))
+          .send({
+            from: window.klaytn.selectedAddress,
+            gas: '2000000',
+          });
+        nft.price = priceNum;
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
     history.push({
       pathname: '/details',
       state: nft,

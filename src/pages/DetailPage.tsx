@@ -84,7 +84,7 @@ const DetailPage = ({ location }: RouteComponentProps) => {
     setData([...NivoData]);
   }, [nft]);
 
-  const handleSellClick = (event: React.SyntheticEvent) => {
+  const handleSellClick = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
     if (nft.price === 0) {
@@ -99,11 +99,13 @@ const DetailPage = ({ location }: RouteComponentProps) => {
       gas: 200000,
     });
 
-    window.caver.rpc.klay.sendTransaction(tx).then(console.log);
-
-    enqueueSnackbar('구매하였습니다.', { variant: 'success' });
-
-    history.push('/account');
+    try {
+      await window.caver.rpc.klay.sendTransaction(tx);
+      enqueueSnackbar('구매하였습니다.', { variant: 'success' });
+      history.push('/account');
+    } catch (err) {
+      enqueueSnackbar('거부되었습니다.', { variant: 'error' });
+    }
   };
 
   return (
@@ -173,7 +175,10 @@ const DetailPage = ({ location }: RouteComponentProps) => {
               <TableRow>
                 <TableCell>
                   <Typography>
-                    가격 : {nft.price === 0 ? '판매되지 않습니다.' : nft.price}
+                    가격 :{' '}
+                    {nft.price === 0
+                      ? '판매되지 않습니다.'
+                      : nft.price + ' KLAY'}
                   </Typography>
                 </TableCell>
               </TableRow>
@@ -185,14 +190,16 @@ const DetailPage = ({ location }: RouteComponentProps) => {
                     alignItems: 'right',
                   }}
                 >
-                  <Button
-                    startIcon={<PaymentTwoToneIcon />}
-                    size="large"
-                    variant="outlined"
-                    onClick={handleSellClick}
-                  >
-                    구매하기
-                  </Button>
+                  {nft.price !== 0 && nft.ownerId !== user.sub && (
+                    <Button
+                      startIcon={<PaymentTwoToneIcon />}
+                      size="large"
+                      variant="outlined"
+                      onClick={handleSellClick}
+                    >
+                      구매하기
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             </TableBody>

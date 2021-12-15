@@ -160,7 +160,7 @@ export default function AccountPage() {
               </Grid>
             </Grid>
           </Box>
-          )
+
           <Grid
             container
             sx={{
