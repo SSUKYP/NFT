@@ -45,9 +45,9 @@ const HomePage: React.FunctionComponent = () => {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <NftCard nft={nfts[idx * 2]} />
-                  <NftCard nft={nfts[idx * 2 + 1]} />
-                  <NftCard nft={nfts[idx * 2 + 2]} />
+                  <NftCard nft={nfts[idx * 3]} />
+                  <NftCard nft={nfts[idx * 3 + 1]} />
+                  <NftCard nft={nfts[idx * 3 + 2]} />
                 </Stack>
               ))}
           </Carousel>
